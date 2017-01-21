@@ -1,0 +1,19 @@
+# Project specific
+processes.json
+rethinkdb_data
+docker
+sftp-config.json
+
+# IOS / Xcode
+cordova/platforms
+cordova/plugins
+cordova/www
+cordova/hooks
+
+# OSX
+.DS_Store
+.Spotlight-V100
+.Trashes
+
+#general
+node_modules
