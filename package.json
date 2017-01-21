@@ -1,0 +1,40 @@
+{
+  "name": "withotherwords",
+  "version": "1.0.0",
+  "description": "A hybridapp of the game With other words",
+  "main": "index.js",
+  "scripts": {
+    "start": "HOST='localhost' node --harmony ./server/index.js",
+    "js:build:watch": "webpack --watch --config ./webpack.development.config.js",
+    "js:build": "webpack --config ./webpack.development.config.js",
+    "js:build:production": "NODE_ENV=production webpack --config ./webpack.production.config.js",
+    "lint": "standard --verbose \"server/**/*.js\" \"client/**/*.jsx\" \"client/**/*.js\" | snazzy || true",
+    "lint:fix": "standard --fix \"server/**/*.js\" \"client/**/*.jsx\" \"client/**/*.js\" || true"
+  },
+  "author": "Oskar Walker, David Dokakis & Daniel Hidesten",
+  "dependencies": {
+    "body-parser": "1.16.0",
+    "cookie": "0.3.1",
+    "cookie-parser": "1.4.3",
+    "express": "4.14.0",
+    "helmet": "3.4.0",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-redux": "^5.0.2",
+    "redux": "^3.6.0",
+    "rethinkdb": "2.3.3",
+    "socket.io": "1.7.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-core": "^6.22.1",
+    "babel-loader": "^6.2.10",
+    "babel-plugin-transform-object-rest-spread": "^6.22.0",
+    "babel-preset-latest": "^6.22.0",
+    "babel-preset-react": "^6.22.0",
+    "snazzy": "6.0.0",
+    "standard": "8.6.0",
+    "webpack": "^1.14.0",
+    "webpack-dev-server": "^1.16.2"
+  }
+}

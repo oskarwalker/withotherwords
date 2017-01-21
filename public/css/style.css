@@ -1,0 +1,24 @@
+* {
+	padding: 0px;
+	margin: 0px;
+	box-sizing: border-box;
+	position: relative;
+
+	transition: 0.2s all ease-in-out;
+}
+
+html {
+	height: 100%;
+}
+
+html,
+body {
+	min-height: 100%;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
