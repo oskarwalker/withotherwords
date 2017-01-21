@@ -3,6 +3,7 @@ processes.json
 rethinkdb_data
 docker
 sftp-config.json
+public/*
 
 # IOS / Xcode
 cordova/platforms
