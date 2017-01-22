@@ -2794,7 +2794,14 @@ react-redux@^5.0.2:
     lodash-es "^4.2.0"
     loose-envify "^1.1.0"
 
-react@^15.4.2:
+react-timer-hoc@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/react-timer-hoc/-/react-timer-hoc-2.0.2.tgz#701e023a05a63e734168d8703a1da27bcbcf3ddb"
+  dependencies:
+    invariant "^2.2.0"
+    react "~0.14.0 || ^15.0.0"
+
+react@^15.4.2, "react@~0.14.0 || ^15.0.0":
   version "15.4.2"
   resolved "https://registry.yarnpkg.com/react/-/react-15.4.2.tgz#41f7991b26185392ba9bae96c8889e7e018397ef"
   dependencies:
@@ -3368,6 +3375,10 @@ timers-browserify@^2.0.2:
   resolved "https://registry.yarnpkg.com/timers-browserify/-/timers-browserify-2.0.2.tgz#ab4883cf597dcd50af211349a00fbca56ac86b86"
   dependencies:
     setimmediate "^1.0.4"
+
+timesync-socket@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/timesync-socket/-/timesync-socket-1.0.0.tgz#cacd3fe6d99e1956cd2240ab7226336810675f5c"
 
 to-array@0.1.4:
   version "0.1.4"

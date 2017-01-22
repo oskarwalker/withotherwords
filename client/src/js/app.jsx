@@ -1,11 +1,15 @@
 import React from 'react'
 import { render } from 'react-dom'
-import ntp from 'socket-ntp/client/ntp.js'
+import tss from 'timesync-socket/client'
+import App from './components/App.jsx'
 
+// Open socket for communication
 const socket = io.connect(window.cordova ? 'https://wow.oskarwalker.se' : undefined) // eslint-disable-line no-use-before-define
-ntp.init(socket, { interval: 5000 })
+
+// Setup time sync
+tss.setup(socket)
 
 render(
-  <p>Ciao mano</p>,
+  <App tss={tss} socket={socket} />,
   document.getElementById('render-target')
 )

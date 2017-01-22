@@ -1,5 +1,5 @@
 const cookie = require('cookie')
-const ntp = require('socket-ntp')
+const tss = require('timesync-socket')
 
 function setupSocket (socketio, db, connection) {
   // Setup sockets
@@ -7,7 +7,7 @@ function setupSocket (socketio, db, connection) {
     const sessionId = cookie.parse(socket.handshake.headers.cookie)['__sessid']
 
     // Setup time sync
-    ntp.sync(socket)
+    tss.setup(socket)
 
     const socketEventArgs = [socket, db, connection, sessionId]
 
@@ -28,7 +28,7 @@ function setupSocket (socketio, db, connection) {
     gamesChangesCursor.each((err, row) => {
       if (err) throw err
       if (row.new_val && row.old_val) {
-        socket.emit('game.update', row)
+        socket.emit('game.update', row.new_val)
       } else if (row.new_val) {
         socket.emit('game.add', row.new_val)
       } else if (row.old_val) {
