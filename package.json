@@ -6,6 +6,7 @@
   "scripts": {
     "start": "HOST='localhost' node --harmony ./server/index.js",
     "js:build:watch": "webpack --watch --config ./webpack.development.config.js",
+    "js:dev-server": "node ./webpack-dev-server.js",
     "js:build": "webpack --config ./webpack.development.config.js",
     "ios:build": "npm run js:build:production && node scripts/prepare-cordova-ios.js",
     "js:build:production": "NODE_ENV=production webpack --config ./webpack.production.config.js",
