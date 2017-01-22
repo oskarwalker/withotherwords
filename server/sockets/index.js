@@ -1,9 +1,13 @@
 const cookie = require('cookie')
+const ntp = require('socket-ntp')
 
 function setupSocket (socketio, db, connection) {
   // Setup sockets
   socketio.on('connection', async (socket) => {
     const sessionId = cookie.parse(socket.handshake.headers.cookie)['__sessid']
+
+    // Setup time sync
+    ntp.sync(socket)
 
     const socketEventArgs = [socket, db, connection, sessionId]
 

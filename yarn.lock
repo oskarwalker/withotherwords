@@ -3101,6 +3101,10 @@ sntp@1.x.x:
   dependencies:
     hoek "2.x.x"
 
+socket-ntp@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/socket-ntp/-/socket-ntp-0.1.0.tgz#d826ab58442a647766a95ac389a6366a1e012e67"
+
 socket.io-adapter@0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/socket.io-adapter/-/socket.io-adapter-0.5.0.tgz#cb6d4bb8bec81e1078b99677f9ced0046066bb8b"
