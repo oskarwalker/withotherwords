@@ -16,7 +16,7 @@ const sessionMiddleware = require('./session')
 // Configure app
 app.set('port', (process.env.PORT || 3000))
 app.set('host', process.env.HOST)
-app.set('baseUrl', __dirname);
+app.set('baseUrl', __dirname)
 app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, '../public/')))
