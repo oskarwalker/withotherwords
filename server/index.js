@@ -28,7 +28,7 @@ db.setup()
   .then(connection => bootstrap(connection))
   .catch(err => {
     console.log(err.message)
-    process.exit()
+    process.exit(1)
   })
 
 async function bootstrap (connection) {
