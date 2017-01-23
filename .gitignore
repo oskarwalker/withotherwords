@@ -4,6 +4,7 @@ rethinkdb_data
 docker
 sftp-config.json
 public/*
+words/words.json
 
 # IOS / Xcode
 cordova/platforms
