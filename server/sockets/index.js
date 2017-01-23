@@ -6,7 +6,7 @@ function setupSocket (socketio, db, connection) {
   socketio.on('connection', async (socket) => {
     const sessionId = cookie.parse(socket.handshake.headers.cookie)['__sessid']
 
-    if(!sessionId) {
+    if (!sessionId) {
       socket.disconnect()
       return
     }
@@ -103,7 +103,11 @@ function onJoinGame (socket, db, connection, sessionId, code, name) {
 }
 
 async function onStartGame (socketio, socket, db, connection, sessionId, id) {
-  const game = await db.table('games').get(id).run(connection)
+  const game = await db
+    .table('games')
+    .get(id)
+    .run(connection)
+    .catch(ex => socket.emit('gameError', 'Could not start game right now.'))
 
   if (game.sessionId !== sessionId) {
     return
