@@ -17,7 +17,10 @@ const setupDatabase = (db, connection) => new Promise(async (resolve, reject) =>
   if (dbList.contains(dbName) === false) {
     try {
       await db.dbCreate(dbName).run(connection)
-    } catch (ex) { throw ex } // No need to continue here.
+    } catch (ex) { 
+      reject(ex)
+      return
+    }
   }
 
   connection.use(dbName)
@@ -36,7 +39,12 @@ const setupDatabase = (db, connection) => new Promise(async (resolve, reject) =>
 
     try {
       await db.tableCreate(tableName).run(connection)
-    } catch (ex) { if (ex.msg.indexOf('exists') === -1) throw ex }
+    } catch (ex) {
+      if (ex.msg.indexOf('exists') === -1) {
+        reject(ex)
+        return
+      }
+    }
   })
 
   // Setup words
@@ -53,8 +61,8 @@ const setupDatabase = (db, connection) => new Promise(async (resolve, reject) =>
       await db.table('words').insert(words).run(connection)
     }
   } catch (ex) {
-    console.log(ex)
-    process.exit(1)
+    reject(ex)
+    return
   }
 
   resolve()

@@ -27,7 +27,7 @@ app.use(sessionMiddleware)
 db.setup()
   .then(connection => bootstrap(connection))
   .catch(err => {
-    console.log(err.message)
+    console.log(err)
     process.exit(1)
   })
 
