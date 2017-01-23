@@ -11,7 +11,7 @@
     "ios:build": "npm run js:build:production && node scripts/prepare-cordova-ios.js",
     "js:build:production": "NODE_ENV=production webpack --config ./webpack.production.config.js",
     "lint": "standard --verbose \"server/**/*.js\" \"client/**/*.jsx\" \"client/**/*.js\" | snazzy || true",
-    "lint:fix": "standard --fix \"server/**/*.js\" \"client/**/*.jsx\" \"client/**/*.js\" || true"
+    "lint:fix": "standard --fix \"server/**/*.js\" \"client/**/*.jsx\" \"client/js/**/*.js\" || true"
   },
   "author": "Oskar Walker, David Dokakis & Daniel Hidesten",
   "dependencies": {
