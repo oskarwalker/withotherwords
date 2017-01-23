@@ -6,6 +6,11 @@ function setupSocket (socketio, db, connection) {
   socketio.on('connection', async (socket) => {
     const sessionId = cookie.parse(socket.handshake.headers.cookie)['__sessid']
 
+    if(!sessionId) {
+      socket.disconnect()
+      return
+    }
+
     // Setup time sync
     tss.setup(socket)
 
