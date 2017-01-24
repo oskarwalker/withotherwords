@@ -60,7 +60,7 @@ function setupSocket (socketio, db, connection) {
     const games = await gamesCursor.toArray()
 
     if (games.length > 0) {
-      socket.emit('game', games[0])
+      socket.emit('game.update', games[0])
     }
   })
 }
