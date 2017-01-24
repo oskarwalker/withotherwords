@@ -1,25 +1,33 @@
 import React, { Component } from 'react'
-import Countdown from './Countdown.jsx'
+import GamePage from './GamePage.jsx'
+import LobbyPage from './LobbyPage.jsx'
+import WelcomePage from './WelcomePage.jsx'
 
 class App extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      game: {}
+      game: {},
+      words: []
     }
   }
 
   componentDidMount () {
     const socket = this.props.socket
 
-    socket.on('game.update', (game) => this.setState({
+    socket.on('game.update', game => this.setState({
       ...this.state,
       game
     }))
 
-    socket.on('game', (game) => this.setState({
+    socket.on('game', game => this.setState({
       ...this.state,
       game
+    }))
+
+    socket.on('words', words => this.setState({
+      ...this.state,
+      words
     }))
   }
 
@@ -28,15 +36,15 @@ class App extends Component {
 
     switch (this.state.game.status) {
       case 'waitingforplayers':
-        return null
+        return <LobbyPage players={this.state.game.players} />
         break
 
       case 'running':
-        return <Countdown synchronizeWith={Date.now() - tss.offset()} startTime={60} />
+        return <GamePage tss={tss} />
         break
 
       default:
-        return null
+        return <WelcomePage />
         break
     }
   }
