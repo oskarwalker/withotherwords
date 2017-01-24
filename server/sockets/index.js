@@ -20,7 +20,7 @@ function setupSocket (socketio, db, connection) {
     socket.on('join-game', onJoinGame.bind(null, socket, db, connection, sessionId))
     socket.on('start-game', onStartGame.bind(null, socketio, ...socketEventArgs))
 
-    const gamePublicFields = ['id', 'code', 'status', 'players']
+    const gamePublicFields = ['code', 'status', 'players']
 
     const gamesChangesCursor = await db
           .table('games')
@@ -32,8 +32,10 @@ function setupSocket (socketio, db, connection) {
     // register changefeed
     gamesChangesCursor.each((err, row) => {
       if (err) {
-        console.log(err)
-        return
+        if(connection.open !== false) {
+          console.log(err)
+          return
+        }
       }
       if (row.new_val && row.old_val) {
         socket.emit('game.update', row.new_val)
@@ -115,7 +117,7 @@ function onJoinGame (socket, db, connection, sessionId, code, name) {
     .catch(err => socket.emit('gameError', 'You can not join this game right now!')) //eslint-disable-line
 }
 
-async function onStartGame (socketio, socket, db, connection, sessionId, id) {
+async function onStartGame (socketio, socket, db, connection, sessionId, code) {
   const game = await db
     .table('games')
     .get(id)
