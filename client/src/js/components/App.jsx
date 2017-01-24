@@ -8,7 +8,7 @@ class App extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      game: props.game,
+      game: props.game || {},
       words: [],
       connected: true,
       socket: undefined
