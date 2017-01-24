@@ -49,19 +49,6 @@ function setupSocket (socketio, db, connection) {
         gamesChangesCursor.close()
       })
     })
-
-    // Send current game
-    const gamesCursor = await db
-          .table('games')
-          .filter(game => game('players').contains(player => player('sessionId').eq(sessionId)))
-          .withFields(gamePublicFields)
-          .run(connection)
-
-    const games = await gamesCursor.toArray()
-
-    if (games.length > 0) {
-      socket.emit('game.update', games[0])
-    }
   })
 }
 

@@ -9,10 +9,11 @@
 </head>
 <body>
 	
-	<div id="render-target"></div>
+	<div id="render-target">${reactContent}</div>
 
 	<script src="/socket.io/socket.io.js"></script>
 	<!-- <script src="js/bundle.js"></script> -->
+	<script>var __INITIAL_PROPS__ = JSON.parse('${initialProps}');</script>
 	<script src="http://localhost:8081/bundle.js"></script>
 	<script src="/js/live.js#css"></script>
 </body>

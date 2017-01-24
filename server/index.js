@@ -1,3 +1,6 @@
+require('babel-register')({
+  extensions: [".jsx"]
+})
 const path = require('path')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')

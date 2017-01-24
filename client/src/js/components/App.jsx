@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import tss from 'timesync-socket/client'
 import GamePage from './GamePage.jsx'
 import LobbyPage from './LobbyPage.jsx'
 import WelcomePage from './WelcomePage.jsx'
@@ -7,19 +8,22 @@ class App extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      game: {},
+      game: props.game,
       words: [],
       connected: true,
+      socket: undefined
     }
   }
 
-  componentDidMount () {
-    const socket = this.props.socket
+  setupSocket (socket) {
+    // Setup time sync
+    tss.setup(socket)
 
-    socket.on('connect', () => this.setState({
-      ...this.state,
-      connected: true,
-    }))
+    socket.on('connect', () => {
+      if(this.state.connected === false) {
+        window.location.reload()
+      }
+    })
 
     socket.on('disconnect', () => this.setState({
       ...this.state,
@@ -47,6 +51,16 @@ class App extends Component {
     }))
   }
 
+  componentDidMount () {
+    // Open socket for communication
+    this.setState({
+      socket: io.connect(window.cordova ? 'https://wow.oskarwalker.se' : undefined) // eslint-disable-line no-use-before-define
+    }, () => {
+      window.socket = this.state.socket
+      this.setupSocket(this.state.socket)
+    })
+  }
+
   render () {
     const tss = this.props.tss
 
@@ -66,8 +80,9 @@ class App extends Component {
   }
 }
 
-App.propTypes = {
-  tss: React.PropTypes.object.isRequired
+App.defaultProps = {
+  tss
 }
 
+module.exports = App
 export default App
