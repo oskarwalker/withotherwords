@@ -21,6 +21,7 @@ app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, '../public/')))
 app.use(helmet())
+app.use(helmet.referrerPolicy({ policy: 'same-origin' }))
 app.use(sessionMiddleware)
 
 // Connect to database and run bootstrap
