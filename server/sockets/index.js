@@ -63,7 +63,7 @@ function setupSocket (socketio, db, connection) {
 async function onCreateNewGame (socket, db, connection, sessionId, name, categories = []) {
   const randomCode = (low, high) => Math.floor(Math.random() * (high - low + 1) + low)
 
-  if(categories.length !== 0) {
+  if (categories.length !== 0) {
     const wordCursor = await db
       .table('words')
       .getAll(...categories, {index: 'category'})
@@ -113,7 +113,6 @@ function onJoinGame (socket, db, connection, sessionId, code, name) {
 }
 
 async function onStartGame (socketio, socket, db, connection, sessionId, id) {
-
   const game = await db
     .table('games')
     .get(id)

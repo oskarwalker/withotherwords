@@ -2,7 +2,6 @@ import React from 'react'
 import Countdown from './Countdown.jsx'
 
 function GamePage ({ tss }) {
-
   return (
     <div>
       <h1>Game page</h1>
