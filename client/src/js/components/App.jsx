@@ -8,26 +8,42 @@ class App extends Component {
     super(props)
     this.state = {
       game: {},
-      words: []
+      words: [],
+      connected: true,
     }
   }
 
   componentDidMount () {
     const socket = this.props.socket
 
-    socket.on('game.update', game => this.setState({
+    socket.on('connect', () => this.setState({
       ...this.state,
-      game
+      connected: true,
     }))
 
-    socket.on('game', game => this.setState({
+    socket.on('disconnect', () => this.setState({
       ...this.state,
-      game
+      connected: false,
+    }))
+
+    socket.on('game.update', game => this.setState({
+      ...this.state,
+      game,
+    }))
+
+    socket.on('game.add', game => this.setState({
+      ...this.state,
+      game,
+    }))
+
+    socket.on('game.remove', id => this.setState({
+      ...this.state,
+      game: {},
     }))
 
     socket.on('words', words => this.setState({
       ...this.state,
-      words
+      words,
     }))
   }
 
