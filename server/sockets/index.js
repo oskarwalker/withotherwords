@@ -28,10 +28,13 @@ function setupSocket (socketio, db, connection) {
           .withFields(gamePublicFields)
           .changes()
           .run(connection)
-
+    
     // register changefeed
     gamesChangesCursor.each((err, row) => {
-      if (err) throw err
+      if (err) {
+        console.log(err)
+        return
+      }
       if (row.new_val && row.old_val) {
         socket.emit('game.update', row.new_val)
       } else if (row.new_val) {
