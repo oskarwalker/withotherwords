@@ -5,7 +5,7 @@ function LobbyPage ({ players }) {
     <div>
       <h1>Lobby page</h1>
       <ul className='players'>
-        {players.map(player => <li>{player.name}</li>)}
+        {players.map(player => <li key={player.sessionId}>{player.name}</li>)}
       </ul>
     </div>
   )
