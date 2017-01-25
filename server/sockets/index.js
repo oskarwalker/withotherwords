@@ -36,6 +36,7 @@ function setupSocket (socketio, db, connection) {
           console.log(err)
           return
         }
+        return
       }
       if (row.new_val && row.old_val) {
         socket.emit('game.update', row.new_val)
