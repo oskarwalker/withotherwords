@@ -3,6 +3,7 @@ import tss from 'timesync-socket/client'
 import GamePage from './GamePage.jsx'
 import LobbyPage from './LobbyPage.jsx'
 import WelcomePage from './WelcomePage.jsx'
+import 'react-fastclick'
 import 'whatwg-fetch'
 
 const window = window || global

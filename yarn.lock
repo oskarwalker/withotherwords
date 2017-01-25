@@ -2784,6 +2784,12 @@ react-dom@^15.4.2:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
 
+react-fastclick@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/react-fastclick/-/react-fastclick-2.1.2.tgz#27a650e5af1ed60dc20d4d5a81ad7240dcd44768"
+  dependencies:
+    react ">=0.12.0"
+
 react-redux@^5.0.2:
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-5.0.2.tgz#3d9878f5f71c6fafcd45de1fbb162ea31f389814"
@@ -2801,7 +2807,7 @@ react-timer-hoc@^2.0.2:
     invariant "^2.2.0"
     react "~0.14.0 || ^15.0.0"
 
-react@^15.4.2, "react@~0.14.0 || ^15.0.0":
+react@>=0.12.0, react@^15.4.2, "react@~0.14.0 || ^15.0.0":
   version "15.4.2"
   resolved "https://registry.yarnpkg.com/react/-/react-15.4.2.tgz#41f7991b26185392ba9bae96c8889e7e018397ef"
   dependencies:
