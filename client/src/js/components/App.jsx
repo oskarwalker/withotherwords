@@ -3,6 +3,11 @@ import tss from 'timesync-socket/client'
 import GamePage from './GamePage.jsx'
 import LobbyPage from './LobbyPage.jsx'
 import WelcomePage from './WelcomePage.jsx'
+import 'whatwg-fetch'
+
+const window = window || global
+
+window.tss = tss
 
 class App extends Component {
   constructor (props) {
@@ -49,16 +54,28 @@ class App extends Component {
       ...this.state,
       words,
     }))
+
+    socket.on('gameError', error => console.log(error))
   }
 
   componentDidMount () {
-    // Open socket for communication
-    this.setState({
-      socket: io.connect(window.cordova ? 'https://wow.oskarwalker.se' : undefined) // eslint-disable-line no-use-before-define
-    }, () => {
+
+    const onSocketSet = () => {
       window.socket = this.state.socket
       this.setupSocket(this.state.socket)
-    })
+    }
+
+    if(window.cordova) {
+        this.setState({
+          socket: io.connect('https://wow.oskarwalker.se') // eslint-disable-line no-use-before-define
+        }, onSocketSet)
+    } else {
+      this.setState({
+        socket: io.connect() // eslint-disable-line no-use-before-define
+      }, onSocketSet)
+    }
+
+    window.app = this
   }
 
   render () {

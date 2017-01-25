@@ -12,6 +12,7 @@
     <preference name="DisallowOverscroll" value="true" />
     <preference name="Suppresses3DTouchGesture" value="true" />
     <preference name="SuppressesLongPressGesture" value="true" />
+    <preference name="AutoHideSplashScreen" value="false" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
