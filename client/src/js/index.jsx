@@ -11,14 +11,14 @@ function renderApp (props = {}) {
   )
 }
 
-if(window.cordova) {
-  fetch('https://wow.oskarwalker.se/game', {
+if (window.cordova) {
+  fetch('https://wow.oskarwalker.se/initial-props', {
     credentials: 'include'
   })
   .then(response => response.json())
-  .then(game => {
+  .then(props => {
     window.navigator.splashscreen.hide()
-    renderApp({game})
+    renderApp(props)
   })
   .catch(err => {
     window.navigator.splashscreen.hide()

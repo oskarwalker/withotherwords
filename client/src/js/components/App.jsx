@@ -3,6 +3,7 @@ import tss from 'timesync-socket/client'
 import GamePage from './GamePage.jsx'
 import LobbyPage from './LobbyPage.jsx'
 import WelcomePage from './WelcomePage.jsx'
+import BeforeRoundPage from './BeforeRoundPage.jsx'
 import 'react-fastclick'
 import 'whatwg-fetch'
 
@@ -15,9 +16,17 @@ class App extends Component {
     super(props)
     this.state = {
       game: props.game || {},
+      player: props.player || {},
+      config: props.config || {},
       words: [],
       connected: true,
       socket: undefined
+    }
+  }
+
+  getChildContext () {
+    return {
+      socket: this.state.socket
     }
   }
 
@@ -26,50 +35,64 @@ class App extends Component {
     tss.setup(socket)
 
     socket.on('connect', () => {
-      if(this.state.connected === false) {
+      if (this.state.connected === false) {
         window.location.reload()
       }
     })
 
     socket.on('disconnect', () => this.setState({
       ...this.state,
-      connected: false,
+      connected: false
     }))
 
     socket.on('game.update', game => this.setState({
       ...this.state,
-      game,
+      game
     }))
 
     socket.on('game.add', game => this.setState({
       ...this.state,
-      game,
+      game
     }))
 
     socket.on('game.remove', id => this.setState({
       ...this.state,
-      game: {},
+      game: {}
+    }))
+
+    socket.on('player.update', player => this.setState({
+      ...this.state,
+      player
+    }))
+
+    socket.on('player.add', player => this.setState({
+      ...this.state,
+      player
+    }))
+
+    socket.on('player.remove', player => this.setState({
+      ...this.state,
+      player: {}
     }))
 
     socket.on('words', words => this.setState({
       ...this.state,
-      words,
+      words
     }))
 
     socket.on('gameError', error => console.log(error))
   }
 
   componentDidMount () {
-
     const onSocketSet = () => {
       window.socket = this.state.socket
       this.setupSocket(this.state.socket)
     }
 
-    if(window.cordova) {
-        this.setState({
-          socket: io.connect('https://wow.oskarwalker.se') // eslint-disable-line no-use-before-define
-        }, onSocketSet)
+    if (window.cordova) {
+      this.setState({
+        socket: io.connect('https://wow.oskarwalker.se') // eslint-disable-line no-use-before-define
+      }, onSocketSet)
     } else {
       this.setState({
         socket: io.connect() // eslint-disable-line no-use-before-define
@@ -84,22 +107,26 @@ class App extends Component {
 
     switch (this.state.game.status) {
       case 'waitingforplayers':
-        return <LobbyPage players={this.state.game.players} />
-        break
+        return <LobbyPage gameCode={this.state.game.code} players={this.state.game.players} />
 
       case 'running':
-        return <GamePage tss={tss} />
-        break
+        return <GamePage tss={tss} roundTime={this.state.config.roundTime} roundStartTime={this.state.game.roundStartTime} />
+
+      case 'idle':
+        return <BeforeRoundPage currentPlayer={this.state.player} currentPlayerId={this.state.game.currentPlayerId} players={this.state.game.players} />
 
       default:
         return <WelcomePage />
-        break
     }
   }
 }
 
 App.defaultProps = {
   tss
+}
+
+App.childContextTypes = {
+  socket: React.PropTypes.object
 }
 
 module.exports = App

@@ -1,24 +1,159 @@
 * {
-	padding: 0px;
-	margin: 0px;
-	box-sizing: border-box;
-	position: relative;
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+  position: relative;
+  outline: 0;
 
-	transition: 0.2s all ease-in-out;
+  transition: 0.2s all ease-in-out;
 }
 
 html {
-	height: 100%;
+  height: 100%;
 }
 
 html,
 body {
-	min-height: 100%;
+  min-height: 100%;
 }
 
 body {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+  
+}
+
+#render-target {
+  width: 100%;
+}
+
+a, button, input {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.button-input {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-wrapper {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.button-input .inner-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.button-input label {
+  display: block;
+  margin-bottom: 5px;
+  margin-left: 5px;
+  font-family: 'San Francisco', 'Helvetica Neue', 'Helvetica';
+  font-weight: 200;
+  
+  transform: translateY(110%);
+  transition: 0.2s transform ease-out 0.2s;
+}
+
+.button-input input {
+  width: 0px;
+  font-size: 22px;
+  padding: 0px;
+  line-height: 1.5;
+  font-size: 24px;
+  font-family: 'San Francisco', 'Helvetica Neue', 'Helvetica';
+  font-weight: 100;
+  border: 0px solid #ccc;
+  color: #333;
+  border-radius: 3px;
+  transition: 0.2s all ease-out;
+}
+
+.button-input button {
+  background: none;
+  border: none;
+  display: block;
+
+  width: 100%;
+  height: 40px;
+
+  border-radius: 3px;
+  color: #333;
+  background-color: #fff;
+  border: 1px solid #ccc;
+
+  font-family: 'San Francisco', 'Helvetica Neue', 'Helvetica';
+  font-weight: 200;
+  font-size: 16px;
+  
+  transition: 0.2s all ease-out 0.2s, 0.2s width ease-out, 0.2s font-size ease-out, 0.1s border-radius ease-out 0.1s;
+}
+
+.button-input.input--open label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 100;
+  transform: translateY(0%);
+}
+
+.button-input.input--open input {
+  width: calc(100% - 45px);
+  margin-right: 5px;
+  padding: 1px 5px;
+  line-height: 1.5;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+.button-input.input--open button {
+  background: none;
+  border: none;
+
+  width: 40px;
+  height: 40px;
+
+  font-size: 12px;
+
+  border-radius: 50%;
+  color: #333;
+  background-color: #fff;
+  border: 1px solid #ccc;
+
+}
+
+
+.ios-header {
+  height: 65px;
+}
+
+.ios-header .header-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  bottom: 0;
+  margin-bottom: 10px;
+  position: absolute;
+  width: 100%;
+}
+
+.ios-header img {
+  position: absolute;
+  top: 0px;
+  z-index: -1;
+}
+
+.ios-header .title {
+  font-weight: 400;
+  font-family: 'San Francisco', 'Helvetica Neue', 'Helvetica';
+  font-size: 16px;
 }
