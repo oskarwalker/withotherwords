@@ -107,7 +107,7 @@ class App extends Component {
 
     switch (this.state.game.status) {
       case 'waitingforplayers':
-        return <LobbyPage gameCode={this.state.game.code} players={this.state.game.players} />
+        return <LobbyPage gameCode={this.state.game.code} players={this.state.game.players} currentPlayerId={this.state.player.id} gameOwnerId={this.state.game.ownerId} />
 
       case 'running':
         return <GamePage tss={tss} roundTime={this.state.config.roundTime} roundStartTime={this.state.game.roundStartTime} />
