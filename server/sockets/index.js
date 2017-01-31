@@ -1,6 +1,16 @@
 const cookie = require('cookie')
 const tss = require('timesync-socket')
 
+// Routes
+const createNewGame = require('./createNewGame.js')
+const joinGame = require('./joinGame.js')
+const startGame = require('./startGame.js')
+const givePoint = require('./givePoint.js')
+const startRound = require('./startRound.js')
+
+const { gamePrivateFields } = require('../db/helper/game')
+const { playerPrivateFields } = require('../db/helper/player')
+
 function setupSocket (socketio, db, connection) {
   // Setup sockets
   socketio.on('connection', async (socket) => {
@@ -14,25 +24,30 @@ function setupSocket (socketio, db, connection) {
     // Setup time sync
     tss.setup(socket)
 
+    // Register routes
     const socketEventArgs = [socket, db, connection, sessionId]
 
-    socket.on('create-new-game', onCreateNewGame.bind(null, ...socketEventArgs))
-    socket.on('join-game', onJoinGame.bind(null, socket, db, connection, sessionId))
-    socket.on('start-game', onStartGame.bind(null, socketio, ...socketEventArgs))
+    socket.on('create-new-game', createNewGame.bind(null, ...socketEventArgs))
+    socket.on('join-game', joinGame.bind(null, ...socketEventArgs))
+    socket.on('start-game', startGame.bind(null, ...socketEventArgs))
+    socket.on('start-round', startRound.bind(null, ...socketEventArgs))
+    socket.on('give-point', givePoint.bind(null, ...socketEventArgs))
 
-    const gamePublicFields = ['code', 'status', 'players']
-
+    // register changefeeds
     const gamesChangesCursor = await db
           .table('games')
           .filter(game => game('players').contains(player => player('sessionId').eq(sessionId)))
-          .withFields(gamePublicFields)
+          .without(gamePrivateFields)
           .changes()
           .run(connection)
-    
-    // register changefeed
+
+    socket.on('disconnect', () => {
+      gamesChangesCursor.close()
+    })
+
     gamesChangesCursor.each((err, row) => {
       if (err) {
-        if(connection.open !== false) {
+        if (connection.open !== false) {
           console.log(err)
           return
         }
@@ -46,81 +61,8 @@ function setupSocket (socketio, db, connection) {
         socket.emit('game.remove', row.old_val.id)
       }
 
-      socket.on('disconnect', () => {
-        gamesChangesCursor.close()
-      })
     })
   })
-}
-
-async function onCreateNewGame (socket, db, connection, sessionId, name, categories = []) {
-  const randomCode = (low, high) => Math.floor(Math.random() * (high - low + 1) + low)
-
-  if (categories.length !== 0) {
-    const wordCursor = await db
-      .table('words')
-      .getAll(...categories, {index: 'category'})
-      .run(connection)
-
-    const words = await wordCursor.toArray()
-    socket.emit('words', words)
-  }
-
-  db.table('games').insert({
-    sessionId,
-    players: [{
-      name,
-      sessionId,
-      points: 0
-    }],
-    code: randomCode(10000, 90000),
-    status: 'waitingforplayers'
-  }).run(connection)
-    .then(() => { console.log(`new game created by: ${sessionId}`) })
-    .catch(err => { throw err })
-}
-
-function onJoinGame (socket, db, connection, sessionId, code, name) {
-  db.table('games')
-    .filter(game =>
-        game('code').eq(code)
-        .and(
-          game('players').contains(player => player('sessionId').ne(sessionId))
-        )
-    )
-    .run(connection)
-    .catch(err => { throw err })
-    .then(cursor => cursor.toArray())
-    .then(games => {
-      if (games.length > 0) {
-        return db.table('games').filter({code}).update({players: db.row('players').append({
-          sessionId,
-          name,
-          points: 0
-        })}).run(connection)
-      } else {
-        socket.emit('gameError', 'You\'re already in that game!')
-      }
-    })
-    .catch(err => socket.emit('gameError', 'You can not join this game right now!')) //eslint-disable-line
-}
-
-async function onStartGame (socketio, socket, db, connection, sessionId, code) {
-  const game = await db
-    .table('games')
-    .get(id)
-    .run(connection)
-    .catch(ex => socket.emit('gameError', 'Could not start game right now.'))
-
-  if (game.sessionId !== sessionId) {
-    return
-  }
-
-  db.table('games')
-    .get(id)
-    .update({status: 'idle'})
-    .run(connection)
-    .catch(ex => socket.emit('gameError', 'Could not start game right now.'))
 }
 
 module.exports = setupSocket
