@@ -3,7 +3,10 @@ const getWordCursor = require('../data/words')
 
 r.setup = () => new Promise((resolve, reject) => {
   r.connect({ host: process.env.DB_HOST || 'localhost', port: 28015 })
-    .then((connection) => resolve(connection))
+    .then((connection) => {
+      connection.on('error', err => console.log(err))
+      resolve(connection)
+    })
     .catch(reject)
 })
 
@@ -51,7 +54,7 @@ const setupDatabase = (db, connection) => new Promise(async (resolve, reject) =>
   try {
     // Create secondary index for category
     const indexList = await db.table('words').indexList().run(connection)
-    if(indexList.includes('category') === false) {
+    if (indexList.includes('category') === false) {
       await db.table('words').indexCreate('category').run(connection)
     }
 
