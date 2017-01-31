@@ -23,6 +23,7 @@ async function createNewGame (socket, db, connection, sessionId, name, categorie
 
     const gameObject = {
       sessionId,
+      ownerId: newPlayerId,
       players: [playerObject],
       code: randomCode(10000, 90000),
       status: 'waitingforplayers',
