@@ -1,5 +1,5 @@
 require('babel-register')({
-  extensions: [".jsx"]
+  extensions: ['.jsx']
 })
 const path = require('path')
 const bodyParser = require('body-parser')
