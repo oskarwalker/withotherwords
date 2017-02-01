@@ -115,7 +115,6 @@ class App extends Component {
           gameCode={this.state.game.code}
           gameOwnerId={this.state.game.ownerId}
           isGameOwner={isGameOwner}
-          isPlayerTurn={isPlayerTurn}
         />
 
       case 'running':

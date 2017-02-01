@@ -1,11 +1,16 @@
 import React from 'react'
+import BackButton from './BackButton.jsx'
 
 function startGame (socket) {
   socket.emit('start-game')
 }
 
-const LobbyPage = ({ players, gameCode, gameOwnerId, isGameOwner, isPlayerTurn }, { socket }) => (
+const LobbyPage = ({ players, gameCode, gameOwnerId, isGameOwner }, { socket }) => (
   <div>
+    {isGameOwner
+        ? <BackButton>Avsluta Spel</BackButton>
+        : <BackButton>Lämna Spel</BackButton>
+    }
     <h1>Lobby page</h1>
     <h2>Game code</h2>
     <input type='text' value={gameCode} readOnly />
