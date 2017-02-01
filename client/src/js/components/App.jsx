@@ -105,15 +105,34 @@ class App extends Component {
   render () {
     const tss = this.props.tss
 
+    const isGameOwner = this.state.player.id === this.state.game.ownerId
+    const isPlayerTurn = this.state.player.id === this.state.game.currentPlayerId
+
     switch (this.state.game.status) {
       case 'waitingforplayers':
-        return <LobbyPage gameCode={this.state.game.code} players={this.state.game.players} currentPlayerId={this.state.player.id} gameOwnerId={this.state.game.ownerId} />
+        return <LobbyPage 
+          players={this.state.game.players}
+          gameCode={this.state.game.code}
+          gameOwnerId={this.state.game.ownerId}
+          isGameOwner={isGameOwner}
+          isPlayerTurn={isPlayerTurn}
+        />
 
       case 'running':
-        return <GamePage tss={tss} roundTime={this.state.config.roundTime} roundStartTime={this.state.game.roundStartTime} />
+        return <GamePage
+          tss={tss}
+          roundTime={this.state.config.roundTime}
+          roundStartTime={this.state.game.roundStartTime}
+        />
 
       case 'idle':
-        return <BeforeRoundPage currentPlayer={this.state.player} currentPlayerId={this.state.game.currentPlayerId} players={this.state.game.players} gameCode={this.state.game.code} />
+        return <BeforeRoundPage 
+          currentPlayerId={this.state.game.currentPlayerId}
+          players={this.state.game.players}
+          gameCode={this.state.game.code}
+          isGameOwner={isGameOwner}
+          isPlayerTurn={isPlayerTurn}
+        />
 
       default:
         return <WelcomePage />
