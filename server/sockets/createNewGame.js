@@ -2,15 +2,18 @@ async function createNewGame (socket, db, connection, sessionId, name, categorie
   try {
     const randomCode = (low, high) => Math.floor(Math.random() * (high - low + 1) + low)
 
-    if (categories.length !== 0) {
-      const wordCursor = await db
-        .table('words')
-        .getAll(...categories, {index: 'category'})
-        .run(connection)
+    let wordCursor = db
+      .table('words')
 
-      const words = await wordCursor.toArray()
-      socket.emit('words', words)
+    if (categories.length !== 0) {
+      wordCursor = wordCursor.getAll(...categories, {index: 'category'})
     }
+
+    wordCursor = await wordCursor
+      .sample(100)
+      .run(connection)
+
+    const words = await wordCursor.toArray()
 
     const newPlayerId = await db.uuid().run(connection)
 
@@ -28,7 +31,9 @@ async function createNewGame (socket, db, connection, sessionId, name, categorie
       code: randomCode(10000, 90000),
       status: 'waitingforplayers',
       roundEndTime: 0,
-      roundStartTime: 0,    
+      roundStartTime: 0,
+      words,
+      wordIndex: 0,
     }
 
     db.table('games')
@@ -40,6 +45,7 @@ async function createNewGame (socket, db, connection, sessionId, name, categorie
       .catch(err => { throw err })
   } catch (ex) {
     socket.emit('gameError', 'Something went wrong.')
+    console.log(ex)
   }
 }
 
