@@ -157,3 +157,34 @@ a, button, input {
   font-family: 'San Francisco', 'Helvetica Neue', 'Helvetica';
   font-size: 16px;
 }
+
+.timer {
+  fill: none;
+  stroke: #FFCC00;
+  stroke-width: 20;
+  transform: rotateZ(-90deg);
+  transform-origin: center;
+
+  stroke-dasharray: 343;
+  stroke-dashoffset: 343;
+  animation-name: timerFill;
+  animation-fill-mode: forwards;
+  animation-timing-function: linear;
+}
+
+.timer-bg {
+  fill: none;
+  stroke: #f3f3f3;
+  stroke-width: 20;
+}
+
+@keyframes timerFill {
+  65% {
+    stroke: #FFCC00;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+    stroke: #ff3333;
+  }
+}

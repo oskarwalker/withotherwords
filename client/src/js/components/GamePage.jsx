@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Countdown from './Countdown.jsx'
+import GameTimer from './GameTimer.jsx'
 
 class GamePage extends Component {
   constructor(props) {
@@ -22,7 +22,10 @@ class GamePage extends Component {
       <div>
         <h1>Game page</h1>
         {this.state.running
-          ? <Countdown synchronizeWith={this.props.roundStartTime - this.props.tss.offset()} roundTime={this.props.roundTime} />
+          ? <GameTimer 
+              synchronizeWith={this.props.roundStartTime - this.props.tss.offset()}
+              roundTime={this.props.roundTime}
+            />
           : <h3>Starting game..</h3>
         }
       </div>
