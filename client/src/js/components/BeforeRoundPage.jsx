@@ -1,19 +1,24 @@
 import React from 'react'
 
-function BeforeRoundPage ({ currentPlayerId, currentPlayer, players, gameCode }) {
+function startNextRound (socket, gameCode) {
+  socket.emit('start-round', gameCode)
+}
 
-  return (
+const BeforeRoundPage = ({ currentPlayerId, currentPlayer, players, gameCode }, { socket }) => (
     <div>
       <h1>Nästa runda</h1>
       <ul className='players'>
         {players.map(player => <li key={player.id}>{player.name} - {player.points} pts.</li>)}
       </ul>
       {currentPlayerId === currentPlayer.id
-        ? <button>Starta nästa runda</button>
+        ? <button onClick={startNextRound.bind(null, socket, gameCode)}>Starta nästa runda</button>
         : <p>{players.find(player => player.id === currentPlayerId).name} ska starta nästa spel.</p>
       }
     </div>
   )
+
+BeforeRoundPage.contextTypes = {
+  socket: React.PropTypes.object
 }
 
 export default BeforeRoundPage

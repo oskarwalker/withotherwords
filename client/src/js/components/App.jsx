@@ -113,7 +113,7 @@ class App extends Component {
         return <GamePage tss={tss} roundTime={this.state.config.roundTime} roundStartTime={this.state.game.roundStartTime} />
 
       case 'idle':
-        return <BeforeRoundPage currentPlayer={this.state.player} currentPlayerId={this.state.game.currentPlayerId} players={this.state.game.players} />
+        return <BeforeRoundPage currentPlayer={this.state.player} currentPlayerId={this.state.game.currentPlayerId} players={this.state.game.players} gameCode={this.state.game.code} />
 
       default:
         return <WelcomePage />
