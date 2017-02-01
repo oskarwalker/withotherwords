@@ -18,12 +18,16 @@ class GamePage extends Component {
   }
 
   render () {
+
+    const offset = this.props.tss.offset()
+
     return (
       <div>
         <h1>Game page</h1>
         {this.state.running
           ? <GameTimer 
-              synchronizeWith={this.props.roundStartTime - this.props.tss.offset()}
+              synchronizeWith={this.props.roundStartTime - offset}
+              offset={offset}
               roundTime={this.props.roundTime}
             />
           : <h3>Starting game..</h3>

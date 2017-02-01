@@ -1,8 +1,8 @@
 import React from 'react'
 import timer from 'react-timer-hoc'
 
-const CountdownBase = ({ timer, synchronizeWith, roundTime }) => {
-  const now = Date.now()
+const CountdownBase = ({ timer, synchronizeWith, offset, roundTime }) => {
+  const now = Date.now() - offset
 
   if (now - synchronizeWith >= roundTime) {
     timer.stop()

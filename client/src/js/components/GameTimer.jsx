@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Countdown from './Countdown.jsx'
 
-const GameTimer = ({ synchronizeWith, roundTime }) => (
+const GameTimer = ({ synchronizeWith, offset, roundTime }) => (
 
   <div className="game-timer">
     <svg version="1.1"
@@ -10,7 +10,7 @@ const GameTimer = ({ synchronizeWith, roundTime }) => (
       <circle className="timer-bg" cx="64.5" cy="64.5" r="54.5"/>
       <circle className="timer" style={{animationDuration: `${roundTime / 1000}s`, animationDelay: `-${(Date.now() - synchronizeWith) / 1000}s` }} cx="64.5" cy="64.5" r="54.5"/>
     </svg>
-    <Countdown synchronizeWith={synchronizeWith} roundTime={roundTime} />
+    <Countdown synchronizeWith={synchronizeWith} offset={offset} roundTime={roundTime} />
 
   </div>
 
