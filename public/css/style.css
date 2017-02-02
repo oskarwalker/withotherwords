@@ -189,16 +189,19 @@ a, button, input {
   }
 }
 
+.dialog-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .dialog-overlay {
     width: 100vw;
     height: 100vh;
     background-color: rgba(0,0,0,0.3);
     position: fixed;
     top: 0px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
 .dialog-container {

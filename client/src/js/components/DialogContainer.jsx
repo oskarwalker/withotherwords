@@ -1,9 +1,11 @@
 import React from 'react'
 
 const DialogContainer = ({ children, onClick }) => (
-  <div className='dialog-overlay' onClick={onClick}>
+  <div className='dialog-wrapper'> 
+    <div className='dialog-overlay' onClick={onClick}>
+    </div>
     <div className='dialog-container'>
-      {children}
+        {children}
     </div>
   </div>
 )
