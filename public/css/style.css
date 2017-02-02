@@ -188,3 +188,49 @@ a, button, input {
     stroke: #ff3333;
   }
 }
+
+.dialog-overlay {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.3);
+    position: fixed;
+    top: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.dialog-container {
+    background-color: white;
+    border-radius: 15px;
+    min-height: 150px;
+    display: block;
+}
+
+.dialog-content {
+    padding: 10px;
+}
+
+.dialog-buttons {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+}
+
+.dialog-container > div {
+    height: 150px;
+}
+
+.dialog-button {
+    width: 50%;
+    height: 40px;
+    border: none;
+    background: none;
+    color: orange;
+    border-top: 1px solid #eee;
+}
+
+.dialog-button--left {
+    border-right: 1px solid #eee;
+}
