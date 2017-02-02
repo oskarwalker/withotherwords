@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import GameTimer from './GameTimer.jsx'
+import PlayerGamePage from './PlayerGamePage.jsx'
+import RefereeGamePage from './RefereeGamePage.jsx'
 
 class GamePage extends Component {
   constructor (props) {
@@ -14,20 +15,33 @@ class GamePage extends Component {
     }),
       this.props.roundStartTime - this.props.tss.offset() - Date.now()
     )
+
+    this.renderGamePage = this.renderGamePage.bind(this)
+  }
+
+  renderGamePage () {
+
+    const offset = this.props.tss.offset()
+
+    if(this.props.isPlayerTurn) {
+      return <PlayerGamePage
+              synchronizeWith={this.props.roundStartTime - offset}
+              offset={offset}
+              roundTime={this.props.roundTime}
+            />
+    } else {
+      return <RefereeGamePage />
+    }
   }
 
   render () {
-    const offset = this.props.tss.offset()
 
     return (
       <div>
         <h1>Game page</h1>
+
         {this.state.running
-          ? <GameTimer
-            synchronizeWith={this.props.roundStartTime - offset}
-            offset={offset}
-            roundTime={this.props.roundTime}
-            />
+          ? this.renderGamePage()
           : <h3>Starting game..</h3>
         }
       </div>

@@ -120,6 +120,7 @@ class App extends Component {
       case 'running':
         return <GamePage
           tss={tss}
+          isPlayerTurn={isPlayerTurn}
           roundTime={this.state.config.roundTime}
           roundStartTime={this.state.game.roundStartTime}
         />
