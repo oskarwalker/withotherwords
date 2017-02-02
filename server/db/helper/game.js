@@ -3,12 +3,11 @@ const { playerPrivateFields } = require('./player')
 const gamePrivateFields = [
   'sessionId',
   {
-    players: playerPrivateFields,
-  },
+    players: playerPrivateFields
+  }
 ]
 
 async function getGameBySession (sessionId, db, connection) {
-
   const gamesCursor = await db
         .table('games')
         .filter(game => game('players').contains(player => player('sessionId').eq(sessionId)))
@@ -24,5 +23,5 @@ async function getGameBySession (sessionId, db, connection) {
 
 module.exports = {
   getGameBySession,
-  gamePrivateFields,
+  gamePrivateFields
 }

@@ -1,7 +1,6 @@
 const playerPrivateFields = ['sessionId']
 
 async function getPlayerBySession (sessionId, db, connection) {
-
   const playerCursor = await db
         .table('games')
         .concatMap(game => game('players'))
@@ -18,5 +17,5 @@ async function getPlayerBySession (sessionId, db, connection) {
 
 module.exports = {
   getPlayerBySession,
-  playerPrivateFields,
+  playerPrivateFields
 }

@@ -18,10 +18,10 @@ async function createNewGame (socket, db, connection, sessionId, name, categorie
     const newPlayerId = await db.uuid().run(connection)
 
     const playerObject = {
-        id: newPlayerId,
-        sessionId,
-        name,
-        points: 0,
+      id: newPlayerId,
+      sessionId,
+      name,
+      points: 0
     }
 
     const gameObject = {
@@ -33,13 +33,13 @@ async function createNewGame (socket, db, connection, sessionId, name, categorie
       roundEndTime: 0,
       roundStartTime: 0,
       words,
-      wordIndex: 0,
+      wordIndex: 0
     }
 
     db.table('games')
       .insert(gameObject)
       .run(connection)
-      .then(() => { 
+      .then(() => {
         socket.emit('player.add', playerObject)
       })
       .catch(err => { throw err })

@@ -19,8 +19,8 @@ module.exports = async function (app, db, connection, req, res) {
     game,
     player,
     config: {
-      roundTime: ROUND_TIME,
-    },
+      roundTime: ROUND_TIME
+    }
   }
 
   new Promise((resolve, reject) => fs.readFile(

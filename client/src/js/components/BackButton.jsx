@@ -5,8 +5,8 @@ function goBack (socket) {
 }
 
 const BackButton = ({ children }, { socket }) => (
-	<button onClick={goBack.bind(null, socket)}>{children}</button>
-) 
+  <button onClick={goBack.bind(null, socket)}>{children}</button>
+)
 
 BackButton.contextTypes = {
   socket: React.PropTypes.object

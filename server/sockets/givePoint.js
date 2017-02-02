@@ -6,7 +6,7 @@ async function givePoint (socket, db, connection, sessionId) {
 
   const games = await gamesCursor.toArray()
 
-  if(games.length === 0) {
+  if (games.length === 0) {
     socket.emit('gameError', 'You\'re not in a game. Can not give point.')
   }
 
@@ -20,9 +20,9 @@ async function givePoint (socket, db, connection, sessionId) {
     const players = game.players
 
     const newPlayers = players.map(player => {
-      if(player.id === currentPlayerId) {
+      if (player.id === currentPlayerId) {
         return Object.assign({}, player, {
-          points: player.points + 1,
+          points: player.points + 1
         })
       } else {
         return player

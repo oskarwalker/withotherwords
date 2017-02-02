@@ -5,7 +5,7 @@ const { getPlayerBySession } = require('../db/helper/player')
 function setupRoutes (app, db, connection, socketio) {
   app.get('/initial-props', async (req, res) => {
     const sessionId = req.sessionId
-    
+
     const props = {
       game: {},
       player: {},

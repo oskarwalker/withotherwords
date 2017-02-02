@@ -22,8 +22,8 @@ module.exports = async function (app, db, connection, req, res) {
     game,
     player,
     config: {
-      roundTime: ROUND_TIME,
-    },
+      roundTime: ROUND_TIME
+    }
   }
 
   // Render with react and send html

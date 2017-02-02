@@ -6,7 +6,7 @@ async function joinGame (socket, db, connection, sessionId, code, name) {
       id: newPlayerId,
       sessionId,
       name,
-      points: 0,
+      points: 0
     }
 
     db.table('games')

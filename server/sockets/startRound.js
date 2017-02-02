@@ -2,8 +2,7 @@ const { ROUND_TIME, ROUND_TIMEOFFSET } = require('../config')
 
 async function startRound (socket, db, connection, sessionId, code) {
   try {
-
-    if(code === undefined) {
+    if (code === undefined) {
       socket.emit('gameError', 'You need specify the game\'s code to start round')
       return
     }
@@ -13,7 +12,7 @@ async function startRound (socket, db, connection, sessionId, code) {
       .filter({code})
       .withFields(['currentPlayerId'])
       .run(connection)
-    
+
     const currentPlayerId = (await currentPlayerIdCursor.toArray())[0].currentPlayerId
 
     const playerCursor = await db
@@ -25,14 +24,14 @@ async function startRound (socket, db, connection, sessionId, code) {
 
     const players = await playerCursor.toArray()
 
-    if(players.length > 0) {
+    if (players.length > 0) {
       await db
         .table('games')
         .filter({code})
         .update({
           roundEndTime: Date.now() + ROUND_TIME + ROUND_TIMEOFFSET,
           roundStartTime: Date.now() + ROUND_TIMEOFFSET,
-          status: 'running',
+          status: 'running'
         })
         .run(connection)
 
@@ -45,7 +44,7 @@ async function startRound (socket, db, connection, sessionId, code) {
             .update({
               roundEndTime: 0,
               roundStartTime: 0,
-              status: 'idle',
+              status: 'idle'
             })
             .run(connection)
 
@@ -56,11 +55,11 @@ async function startRound (socket, db, connection, sessionId, code) {
 
           const allPlayers = await playersCursor.toArray()
 
-          const currentPlayer = allPlayers.find(player => player.id === currentPlayerId)          
+          const currentPlayer = allPlayers.find(player => player.id === currentPlayerId)
           const currentPlayerIndex = allPlayers.indexOf(currentPlayer)
 
           let nextPlayer
-          if(currentPlayerIndex === allPlayers.length - 1) {
+          if (currentPlayerIndex === allPlayers.length - 1) {
             nextPlayer = allPlayers[0]
           } else {
             nextPlayer = allPlayers[currentPlayerIndex + 1]
@@ -73,13 +72,10 @@ async function startRound (socket, db, connection, sessionId, code) {
               currentPlayerId: nextPlayer.id
             })
             .run(connection)
-
         } catch (ex) { console.log(ex) }
       }, ROUND_TIME + ROUND_TIMEOFFSET)
     }
-
-
-  } catch(ex) {
+  } catch (ex) {
     console.log(ex)
   }
 }

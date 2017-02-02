@@ -110,7 +110,7 @@ class App extends Component {
 
     switch (this.state.game.status) {
       case 'waitingforplayers':
-        return <LobbyPage 
+        return <LobbyPage
           players={this.state.game.players}
           gameCode={this.state.game.code}
           gameOwnerId={this.state.game.ownerId}
@@ -125,7 +125,7 @@ class App extends Component {
         />
 
       case 'idle':
-        return <BeforeRoundPage 
+        return <BeforeRoundPage
           currentPlayerId={this.state.game.currentPlayerId}
           players={this.state.game.players}
           gameCode={this.state.game.code}

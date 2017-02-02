@@ -60,7 +60,6 @@ function setupSocket (socketio, db, connection) {
       } else if (row.old_val) {
         socket.emit('game.remove', row.old_val.id)
       }
-
     })
   })
 }
