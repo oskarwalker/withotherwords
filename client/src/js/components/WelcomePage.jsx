@@ -3,6 +3,8 @@ import InputButton from './InputButton.jsx'
 import Header from './ios/Header.jsx'
 import TeamNameForm from './TeamNameForm.jsx'
 import GameCodeForm from './GameCodeForm.jsx'
+import DialogContainer from './DialogContainer.jsx'
+import DialogContent from './DialogContent.jsx'
 
 class WelcomePage extends Component {
 
@@ -15,9 +17,13 @@ class WelcomePage extends Component {
     this.onGameCodeChange = this.onGameCodeChange.bind(this)
     this.joinGame = this.joinGame.bind(this)
 
+    this.dialogBoxOpen = this.dialogBoxOpen.bind(this)
+    this.dialogBoxClose = this.dialogBoxClose.bind(this)
+
     this.state = {
       teamName: '',
-      gameCode: ''
+      gameCode: '',
+      isShowingModal: false
     }
   }
 
@@ -50,6 +56,18 @@ class WelcomePage extends Component {
     }
   }
 
+  dialogBoxOpen () {
+    this.setState({
+      isShowingModal: true
+    })
+  }
+
+  dialogBoxClose () {
+    this.setState({
+      isShowingModal: false
+    })
+  }
+
   render () {
     return (
       <div>
@@ -57,9 +75,18 @@ class WelcomePage extends Component {
         <TeamNameForm onChange={this.onTeamNameChange} />
         <h2>Skapa nytt spel</h2>
         <button onClick={this.createNewGame}>Skapa nytt spel</button>
-        <h2>Gå med i existerande spel</h2>
-        <GameCodeForm onChange={this.onGameCodeChange} />
-        <button onClick={this.joinGame}>Gå med i spel</button>
+        <h2>Eller:</h2>
+        <button onClick={this.dialogBoxOpen}>Anslut till ett spel</button>
+        {this.state.isShowingModal &&
+          <DialogContainer onClick={this.dialogBoxClose}>
+            <DialogContent onCancel={this.dialogBoxClose} onOk={this.joinGame}>
+              <div>
+                <h2>Gå med i existerande spel</h2>
+                <GameCodeForm onChange={this.onGameCodeChange} />
+              </div>
+            </DialogContent>
+          </DialogContainer>
+        }
       </div>
     )
   }
