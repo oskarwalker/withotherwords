@@ -21,7 +21,18 @@ async function getGameBySession (sessionId, db, connection) {
   return {}
 }
 
+async function incrementWordIndex (sessionId, db, connection, game) {
+  return db
+    .table('games')
+    .get(game.id)
+    .update({
+      wordIndex: game.wordIndex + 1
+    })
+    .run(connection)
+}
+
 module.exports = {
   getGameBySession,
-  gamePrivateFields
+  gamePrivateFields,
+  incrementWordIndex
 }

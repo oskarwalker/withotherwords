@@ -7,6 +7,7 @@ const joinGame = require('./joinGame.js')
 const startGame = require('./startGame.js')
 const givePoint = require('./givePoint.js')
 const startRound = require('./startRound.js')
+const skipWord = require('./skipWord.js')
 
 const { gamePrivateFields } = require('../db/helper/game')
 const { playerPrivateFields } = require('../db/helper/player')
@@ -32,6 +33,7 @@ function setupSocket (socketio, db, connection) {
     socket.on('start-game', startGame.bind(null, ...socketEventArgs))
     socket.on('start-round', startRound.bind(null, ...socketEventArgs))
     socket.on('give-point', givePoint.bind(null, ...socketEventArgs))
+    socket.on('skip-word', skipWord.bind(null, ...socketEventArgs))
 
     // register changefeeds
     const gamesChangesCursor = await db
