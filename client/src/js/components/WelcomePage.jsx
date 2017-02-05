@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import InputButton from './InputButton.jsx'
-import Header from './ios/Header.jsx'
 import TeamNameForm from './TeamNameForm.jsx'
 import GameCodeForm from './GameCodeForm.jsx'
 import DialogContainer from './DialogContainer.jsx'
@@ -72,7 +71,6 @@ class WelcomePage extends Component {
   render () {
     return (
       <div>
-        <Header title='Med andra ord' />
         <TeamNameForm onChange={this.onTeamNameChange} />
         <h2>Skapa nytt spel</h2>
         <button onClick={this.createNewGame}>Skapa nytt spel</button>
