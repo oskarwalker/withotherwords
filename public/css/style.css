@@ -18,7 +18,7 @@ body {
 }
 
 body {
-  
+  background-color: #f6f6f6;  
 }
 
 #render-target {
@@ -28,6 +28,10 @@ body {
 
 a, button, input {
   -webkit-tap-highlight-color: transparent;
+}
+
+a, button, input, p, span, h1, h2, h3 {
+  font-family: 'San Francisco', 'Helvetica Neue', 'Helvetica';
 }
 
 .button-input {
@@ -323,10 +327,17 @@ a, button, input {
   background-color: #ffedcc;
 }
 
-.button-bottom {
+.button-bottom,
+.info-text-bottom {
   position: fixed;
   bottom: 10px;
   left: 10px;
+}
+
+.info-text-bottom {
+  text-align: center;
+  width: 100%;
+  bottom: 20px;
 }
 
 .generic-text-input {
@@ -377,4 +388,55 @@ a, button, input {
   fill: none;
   stroke: orange;
   stroke-width: 25;
+}
+
+.players {
+  width: 100%;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  list-style: none;
+}
+
+.player-list-item {
+  width: 80%;
+  padding: 10px 20px;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background-color: white;
+}
+
+.player-team {
+  color: #888;
+  font-family: 'San Francisco', 'Helvetica Neue', 'Helvetica';
+  font-size: 14px;
+}
+
+.player-name {
+  font-family: 'San Francisco', 'Helvetica Neue', 'Helvetica';
+  font-size: 16px;
+}
+
+.sub-note {
+  width: 100%;
+  margin-top: 10px;
+  display: block;
+  text-align: center;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.game-code {
+  width: 100%;
+  font-size: 42px;
+  letter-spacing: 10px;
+  color: grey;
+  text-align: center;
+  background: none;
+  border: none;
 }
