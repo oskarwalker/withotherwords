@@ -71,15 +71,15 @@ class WelcomePage extends Component {
     return (
       <div>
         <TeamNameForm onChange={this.onTeamNameChange} />
-        <h2>Skapa nytt spel</h2>
-        <button onClick={this.createNewGame}>Skapa nytt spel</button>
-        <h2>Eller:</h2>
-        <button onClick={this.dialogBoxOpen}>Anslut till ett spel</button>
+        <div className="start-buttons">
+      <button className="button-big" disabled={this.state.teamName.length < 1} onClick={this.dialogBoxOpen}>Anslut till ett spel</button>
+      <button className="button-big" disabled={this.state.teamName.length < 1} onClick={this.createNewGame}>Skapa nytt spel</button>
+        </div>
         {this.state.isShowingModal &&
           <DialogContainer onClick={this.dialogBoxClose}>
             <DialogContent onCancel={this.dialogBoxClose} onOk={this.joinGame}>
               <div>
-                <h2>Gå med i existerande spel</h2>
+                <h2>Slå in spelkod för att ansluta</h2>
                 <GameCodeForm onChange={this.onGameCodeChange} />
               </div>
             </DialogContent>

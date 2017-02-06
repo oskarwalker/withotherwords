@@ -1,9 +1,8 @@
 import React from 'react'
 
 const TeamNameForm = ({ onChange }) => (
-  <form>
-    <h1>Lagnamn</h1>
-    <input type='text' onChange={onChange} />
+  <form className="team-name-form">
+    <input type='text' className="generic-text-input" placeholder='Lagnamn' onChange={onChange} />
   </form>
 )
 

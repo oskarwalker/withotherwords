@@ -23,6 +23,7 @@ body {
 
 #render-target {
   width: 100%;
+  height: 100vh;
 }
 
 a, button, input {
@@ -194,46 +195,186 @@ a, button, input {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
 .dialog-overlay {
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0,0,0,0.3);
-    position: fixed;
-    top: 0px;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.3);
+  position: fixed;
+  top: 0px;
+  animation: fadeInOverlay 0.1s ease-in-out forwards;
+}
+
+@keyframes fadeInOverlay {
+  from {
+    opacity: 0;
+  }
+
+  to {
+   opacity: 1;
+  }
 }
 
 .dialog-container {
-    background-color: white;
-    border-radius: 15px;
-    min-height: 150px;
-    display: block;
+  width: 75%;
+  display: block;
+  min-height: 150px;
+  border-radius: 15px;
+  background-color: white;
+  animation: fadeInContent 0.15s ease-in-out forwards;
+}
+
+@keyframes fadeInContent {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+   opacity: 1;
+   transform: scale(1);
+  }
 }
 
 .dialog-content {
-    padding: 10px;
+  padding: 10px;
+}
+
+.dialog-content h2 {
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+  font-family: 'San Francisco', 'Helvetica Neue', 'Helvetica';
+  color: #7d7d7d;
+  margin-top: 5px;
+}
+
+.dialog-content input[type="number"] {
+    width: 100%;
+    padding-left: 15px;
+    padding-bottom: 5px;
+    margin-top: 30px;
+    font-size: 16px;
+    letter-spacing: 20px;
+    border: none;
+    border-bottom: 1px solid black;
+    text-align: center;
 }
 
 .dialog-buttons {
-    position: absolute;
-    bottom: 0px;
-    width: 100%;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
 }
 
 .dialog-container > div {
-    height: 150px;
+  height: 150px;
 }
 
 .dialog-button {
-    width: 50%;
-    height: 40px;
-    border: none;
-    background: none;
-    color: orange;
-    border-top: 1px solid #eee;
+  width: 50%;
+  height: 40px;
+  font-size: 14px;
+  border: none;
+  background: none;
+  color: orange;
+  border-top: 1px solid #eee;
 }
 
 .dialog-button--left {
-    border-right: 1px solid #eee;
+  border-right: 1px solid #eee;
+}
+
+.start-buttons {
+  width: 100%;
+  position: fixed;
+  bottom: 0px;
+  left: 10px;
+}
+
+.start-buttons button {
+  margin-bottom: 10px;
+}
+
+.button-big:active,
+.button-big:focus {
+  box-shadow: 1px 1px 10px 0px rgba(0, 0, 0, 0.3);
+}
+
+.button-big {
+  width: calc(100% - 20px);
+  font-size: 18px;
+  border: none;
+  background: none;
+  background-color: orange;
+  color: white;
+  border-radius: 13px;
+  height: 50px;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.button-big[disabled] {
+  background-color: #ffedcc;
+}
+
+.button-bottom {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+}
+
+.generic-text-input {
+  width: 90%;
+  font-size: 16px;
+  border: none;
+  background: none;
+  padding-bottom: 5px;
+  border-bottom: 2px solid orange;
+}
+
+.team-name-form {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-left: 5px;
+}
+
+.ios .back-button {
+  margin-top: 10px;
+}
+
+.back-button button {
+  border: none;
+  background: none;
+  color: orange;
+  font-size: 14px;
+  height: 40px;
+  font-weight: 400;
+}
+
+.back-button svg {
+  width: 15px;
+  height: 15px;
+  margin-right: 5px;
+}
+
+.back-button-tick {
+  fill: none;
+  stroke: orange;
+  stroke-width: 25;
 }
