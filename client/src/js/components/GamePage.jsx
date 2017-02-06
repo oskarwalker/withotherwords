@@ -53,7 +53,6 @@ class GamePage extends Component {
   getCurrentWord (words, wordIndex) {
     const length = words.length
     const index = wordIndex - (Math.floor(wordIndex / length) * length)
-    console.log(index)
     return words[index].word
   }
 
