@@ -60,8 +60,6 @@ class GamePage extends Component {
 
     return (
       <div>
-        <h1>Game page</h1>
-
         {this.state.running
           ? this.renderGamePage()
           : <h3>Starting game..</h3>

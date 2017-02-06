@@ -1,5 +1,6 @@
 import React from 'react'
 import GameTimer from './GameTimer.jsx'
+import BackButton from './BackButton.jsx'
 
 function skipWord (socket) {
   socket.emit('skip-word')
@@ -7,12 +8,15 @@ function skipWord (socket) {
 
 const PlayerGamePage = ({ synchronizeWith, offset, roundTime, currentWord }, { socket }) => (
   <div className='player-game-page'>
+    <BackButton>Avbryt</BackButton>
+    <span className='time-left-label'>Tid kvar</span>
     <GameTimer
       synchronizeWith={synchronizeWith}
       offset={offset}
       roundTime={roundTime}
-    />
-    <span className='current-word'>{currentWord}</span>
+    >
+      <span className='current-word'>{currentWord}</span>
+    </GameTimer>
     <button className='button-big button-bottom button-skip' onClick={skipWord.bind(null, socket)}>Hoppa över</button>
   </div>
 )

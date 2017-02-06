@@ -9,7 +9,12 @@ const CountdownBase = ({ timer, synchronizeWith, offset, roundTime }) => {
   }
 
   const remaining = (now - synchronizeWith) / 1000
-  return <div>{ (Math.max(0, roundTime / 1000 - remaining).toFixed(0)) }</div>
+  const secondsRemaining = Math.max(0, roundTime / 1000 - remaining)
+
+  const minutes = Math.floor(secondsRemaining / 60)
+  const seconds = Math.floor(secondsRemaining - minutes * 60)
+
+  return <span className='countdown-digits'>{minutes}:{seconds}</span>
 }
 
 const Countdown = timer(1000)(CountdownBase)

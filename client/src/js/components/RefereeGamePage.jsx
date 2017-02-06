@@ -7,6 +7,7 @@ function givePoint (socket) {
 
 const RefereeGamePage = ({ synchronizeWith, offset, roundTime, currentWord }, { socket }) => (
   <div className='referee-game-page'>
+    <span className='time-left-label'>Tid kvar</span>
     <Countdown synchronizeWith={synchronizeWith} offset={offset} roundTime={roundTime} />
     <span className='current-word'>{currentWord}</span>
     <button className="button-big button-bottom button-point" onClick={givePoint.bind(null, socket)}>Ge poäng</button>
