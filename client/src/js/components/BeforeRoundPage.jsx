@@ -10,13 +10,12 @@ const BeforeRoundPage = ({ currentPlayerId, players, gameCode, isGameOwner, isPl
         ? <BackButton>Avsluta Spel</BackButton>
         : <BackButton>Lämna Spel</BackButton>
       }
-    <h1>Nästa runda</h1>
     <ul className='players'>
       {players.map(player => <li key={player.id}>{player.name} - {player.points} pts.</li>)}
     </ul>
     {isPlayerTurn
-        ? <button onClick={startNextRound.bind(null, socket, gameCode)}>Starta nästa runda</button>
-        : <p>{players.find(player => player.id === currentPlayerId).name} ska starta nästa spel.</p>
+        ? <button className="button-big button-bottom" onClick={startNextRound.bind(null, socket, gameCode)}>Starta nästa runda</button>
+        : <p className="info-text-bottom">{players.find(player => player.id === currentPlayerId).name} ska starta nästa spel.</p>
       }
   </div>
   )
