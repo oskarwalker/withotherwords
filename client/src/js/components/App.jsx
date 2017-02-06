@@ -123,6 +123,8 @@ class App extends Component {
           isPlayerTurn={isPlayerTurn}
           roundTime={this.state.config.roundTime}
           roundStartTime={this.state.game.roundStartTime}
+          words={this.state.game.words}
+          wordIndex={this.state.game.wordIndex}
         />
 
       case 'idle':

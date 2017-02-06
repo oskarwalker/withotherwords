@@ -28,6 +28,8 @@ class GamePage extends Component {
               synchronizeWith={this.props.roundStartTime - offset}
               offset={offset}
               roundTime={this.props.roundTime}
+              words={this.props.words}
+              wordIndex={this.props.wordIndex}
             />
     } else {
       return <RefereeGamePage />
