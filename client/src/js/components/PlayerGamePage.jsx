@@ -13,7 +13,7 @@ const PlayerGamePage = ({ synchronizeWith, offset, roundTime, currentWord }, { s
       roundTime={roundTime}
     />
     <span className='current-word'>{currentWord}</span>
-    <button onClick={skipWord.bind(null, socket)}>Hoppa över</button>
+    <button className='button-big button-bottom button-skip' onClick={skipWord.bind(null, socket)}>Hoppa över</button>
   </div>
 )
 

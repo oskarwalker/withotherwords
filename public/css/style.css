@@ -327,6 +327,15 @@ a, button, input, p, span, h1, h2, h3 {
   background-color: #ffedcc;
 }
 
+.button-skip {
+  background-color: red;
+}
+
+.button-point {
+  background-color: lightgreen;
+  color: black;
+}
+
 .button-bottom,
 .info-text-bottom {
   position: fixed;
