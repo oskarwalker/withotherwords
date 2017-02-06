@@ -21,19 +21,40 @@ class GamePage extends Component {
 
   renderGamePage () {
 
-    const offset = this.props.tss.offset()
+    const {
+      tss,
+      roundStartTime,
+      roundTime,
+      words,
+      wordIndex,
+      isPlayerTurn,
+    } = this.props
 
-    if(this.props.isPlayerTurn) {
+    const offset = tss.offset()
+    const currentWord = this.getCurrentWord(words, wordIndex)
+
+    if(isPlayerTurn) {
       return <PlayerGamePage
-              synchronizeWith={this.props.roundStartTime - offset}
+              synchronizeWith={roundStartTime - offset}
               offset={offset}
-              roundTime={this.props.roundTime}
-              words={this.props.words}
-              wordIndex={this.props.wordIndex}
+              roundTime={roundTime}
+              currentWord={currentWord}
             />
     } else {
-      return <RefereeGamePage />
+      return <RefereeGamePage
+              synchronizeWith={roundStartTime - offset}
+              offset={offset}
+              roundTime={roundTime}
+              currentWord={currentWord}
+            />
     }
+  }
+
+  getCurrentWord (words, wordIndex) {
+    const length = words.length
+    const index = wordIndex - (Math.floor(wordIndex / length) * length)
+    console.log(index)
+    return words[index].word
   }
 
   render () {
