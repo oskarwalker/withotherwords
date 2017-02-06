@@ -49,7 +49,6 @@ class WelcomePage extends Component {
   }
 
   joinGame () {
-    console.log('tja')
     if (this.state.gameCode.length === 5 &&
        this.state.teamName.length > 0) {
       this.context.socket.emit('join-game', parseInt(this.state.gameCode), this.state.teamName)
