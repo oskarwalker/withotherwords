@@ -18,7 +18,7 @@ const LobbyPage = ({ players, gameCode, gameOwnerId, isGameOwner }, { socket }) 
       {players.map(player => <li key={player.id}>{player.name}</li>)}
     </ul>
     {isGameOwner
-      ? <button className="button-big button-bottom" onClick={startGame.bind(null, socket)}>Starta Spel</button>
+      ? <button className="button-big button-bottom" disabled={players.length < 2} onClick={startGame.bind(null, socket)}>Starta Spel</button>
       : <p>Väntar på att {players.find(player => player.id === gameOwnerId).name} ska starta spelet!</p>
     }
   </div>
