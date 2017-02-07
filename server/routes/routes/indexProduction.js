@@ -30,7 +30,7 @@ module.exports = async function (app, db, connection, req, res) {
   const reactContent = ReactDOMServer.renderToString(React.createElement(App, props))
 
   new Promise((resolve, reject) => fs.readFile(
-    path.join(app.get('baseUrl'), '../client/src/index_production.html'),
+    path.join(app.get('baseUrl'), '../client/index_production.html'),
     'utf8',
     (err, fileContent) => err ? reject(err) : resolve(fileContent)
   ))
