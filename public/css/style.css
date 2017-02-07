@@ -466,6 +466,7 @@ a, button, input, p, span, h1, h2, h3 {
 
 .ios .button-header {
   padding-top: 15px;
+  height: 55px;
 }
 
 .button-header {
