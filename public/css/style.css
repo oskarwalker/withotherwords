@@ -18,7 +18,8 @@ body {
 }
 
 body {
-  background-color: #f6f6f6;  
+  background-color: #e3e3e3;
+  background-color: rgba(227, 227, 227, 0.43);
 }
 
 #render-target {
@@ -384,7 +385,7 @@ a, button, input, p, span, h1, h2, h3 {
 }
 
 .button-point {
-  background-color: lightgreen;
+  background-color: #4dd67d;
   color: black;
 }
 
@@ -462,25 +463,81 @@ a, button, input, p, span, h1, h2, h3 {
 }
 
 .player-list-item {
-  width: 80%;
-  padding: 10px 20px;
+  width: 100%;
+  text-align: center;
   margin-bottom: 15px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
   background-color: white;
+  box-shadow: 1px 2px 6px 0px rgba(0,0,0,0.2);
+  height: 80px;
+}
+
+.winner h1 {
+  width: 100%;
+  background-color: #4dd67d;
+  text-transform: uppercase;
+  color: white;
+  font-weight: 300;
+  font-size: 42px;
+  text-align: center;
+}
+
+.winner .player-list-item {
+  background-color: #4dd67d;
+  color: white;
+  height: auto;
+  padding-top: 10px;
+  padding-bottom: 15px;
+}
+
+.winner .player-team {
+  color: white;
+}
+
+.winner .player-points-label {
+  color: white;
+}
+
+.winner .player-points-wrapper {
+  position: relative;
 }
 
 .player-team {
-  color: #888;
+  color: #95989a;
   font-family: 'San Francisco', 'Helvetica Neue', 'Helvetica';
   font-size: 14px;
+  font-weight: 200;
 }
 
 .player-name {
   font-family: 'San Francisco', 'Helvetica Neue', 'Helvetica';
   font-size: 16px;
+  font-weight: 200;
+}
+
+.player-points-wrapper {
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  right: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-points {
+  font-size: 36px;
+  font-weight: 300;
+}
+
+.player-points-label {
+  color: #95989a;
+  font-size: 12px;
+  font-weight: 200;
 }
 
 .sub-note {

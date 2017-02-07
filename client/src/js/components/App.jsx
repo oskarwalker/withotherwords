@@ -140,6 +140,7 @@ class App extends Component {
 
       case 'finished':
         return <FinishedPage 
+          players={this.state.game.players}
           isGameOwner={isGameOwner}
         />
 
