@@ -13,7 +13,7 @@ class GamePage extends Component {
     setTimeout(() => this.setState({
       running: true
     }),
-      this.props.roundStartTime + this.props.tss.offset() - Date.now()
+      this.props.roundStartTime - (Date.now() - this.props.tss.offset())
     )
 
     this.renderGamePage = this.renderGamePage.bind(this)
