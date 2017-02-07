@@ -341,7 +341,7 @@ a, button, input, p, span, h1, h2, h3 {
   font-size: 14px;
   border: none;
   background: none;
-  color: orange;
+  color: #FFB83C;
   border-top: 1px solid #eee;
 }
 
@@ -370,7 +370,7 @@ a, button, input, p, span, h1, h2, h3 {
   font-size: 18px;
   border: none;
   background: none;
-  background-color: orange;
+  background-color: #FFB83C;
   color: white;
   border-radius: 13px;
   height: 50px;
@@ -387,7 +387,16 @@ a, button, input, p, span, h1, h2, h3 {
 
 .button-point {
   background-color: #4dd67d;
-  color: black;
+}
+
+.button-replay {
+  background-color: #4dd67d;
+  width: 120px;
+  height: 120px;
+  margin: 0px auto;
+  display: block;
+  margin-top: 50px;
+  border-radius: 50%;
 }
 
 .button-bottom,
@@ -410,7 +419,7 @@ a, button, input, p, span, h1, h2, h3 {
   background: none;
   padding-bottom: 5px;
   border-radius: 0px;
-  border-bottom: 2px solid orange;
+  border-bottom: 2px solid #FFB83C;
 }
 
 .team-name-form {
@@ -433,10 +442,11 @@ a, button, input, p, span, h1, h2, h3 {
   padding-top: 15px;
 }
 
-.back-button button {
+.back-button button,
+.button-header {
   border: none;
   background: none;
-  color: orange;
+  color: #FFB83C;
   font-size: 14px;
   height: 40px;
   font-weight: 400;
@@ -450,8 +460,22 @@ a, button, input, p, span, h1, h2, h3 {
 
 .back-button-tick {
   fill: none;
-  stroke: orange;
+  stroke: #FFB83C;
   stroke-width: 25;
+}
+
+.ios .button-header {
+  padding-top: 15px;
+}
+
+.button-header {
+  position: absolute;
+  right: 15px;
+  top: 0px;
+}
+
+.button-right {
+
 }
 
 .players {
@@ -475,6 +499,10 @@ a, button, input, p, span, h1, h2, h3 {
   background-color: white;
   box-shadow: 1px 2px 6px 0px rgba(0,0,0,0.2);
   height: 80px;
+}
+
+.winner .players {
+  margin-top: 0px;
 }
 
 .winner h1 {
