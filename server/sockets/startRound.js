@@ -1,3 +1,4 @@
+const safe = require('../lib/safe')
 const { ROUND_TIME, ROUND_TIMEOFFSET } = require('../config')
 
 async function startRound (socket, db, connection, sessionId, code) {
@@ -65,13 +66,34 @@ async function startRound (socket, db, connection, sessionId, code) {
             nextPlayer = allPlayers[currentPlayerIndex + 1]
           }
 
-          db
+          const [gameCursorError, gameCursor] = await safe(db
             .table('games')
             .filter({code})
-            .update({
-              currentPlayerId: nextPlayer.id
-            })
-            .run(connection)
+            .run(connection))
+
+          const [gamesError, games] = await safe(gameCursor.toArray())
+
+          const game = games.shift()
+
+          if(game.currentTurn === game.maxTurns) {
+            const [gameUpdateError] = await safe(db
+              .table('games')
+              .get(game.id)
+              .update({
+                status: 'finished'
+              })
+              .run(connection))
+          } else {
+            db
+              .table('games')
+              .filter({code})
+              .update({
+                currentPlayerId: nextPlayer.id,
+                currentTurn: game.currentTurn + 1,
+              })
+              .run(connection)
+          }
+
         } catch (ex) { console.log(ex) }
       }, ROUND_TIME + ROUND_TIMEOFFSET)
     }

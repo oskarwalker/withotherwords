@@ -4,6 +4,8 @@ import GamePage from './GamePage.jsx'
 import LobbyPage from './LobbyPage.jsx'
 import WelcomePage from './WelcomePage.jsx'
 import BeforeRoundPage from './BeforeRoundPage.jsx'
+import FinishedPage from './FinishedPage.jsx'
+
 import 'react-fastclick'
 import 'whatwg-fetch'
 
@@ -135,6 +137,9 @@ class App extends Component {
           isGameOwner={isGameOwner}
           isPlayerTurn={isPlayerTurn}
         />
+
+      case 'finished':
+        return <FinishedPage />
 
       default:
         return <WelcomePage />

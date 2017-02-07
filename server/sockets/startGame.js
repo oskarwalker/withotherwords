@@ -1,4 +1,4 @@
-async function startGame (socket, db, connection, sessionId) {
+async function startGame (socket, db, connection, sessionId, rounds = 2) {
   const game = (await db
     .table('games')
     .filter({sessionId})
@@ -16,9 +16,16 @@ async function startGame (socket, db, connection, sessionId) {
 
   const currentPlayerId = game.players.find(player => player.sessionId === game.sessionId).id
 
+  const maxTurns = rounds * game.players.length
+
   db.table('games')
     .get(game.id)
-    .update({status: 'idle', currentPlayerId: currentPlayerId})
+    .update({
+      status: 'idle',
+      currentPlayerId: currentPlayerId,
+      maxTurns,
+      currentTurn: 1,
+    })
     .run(connection)
     .catch(err => {
       socket.emit('gameError', 'Could not start game right now.')
