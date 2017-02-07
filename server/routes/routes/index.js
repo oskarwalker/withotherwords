@@ -24,7 +24,7 @@ module.exports = async function (app, db, connection, req, res) {
   }
 
   new Promise((resolve, reject) => fs.readFile(
-    path.join(app.get('baseUrl'), '../client/src/index.html'),
+    path.join(app.get('baseUrl'), '../client/src/index_dev.html'),
     'utf8',
     (err, fileContent) => err ? reject(err) : resolve(fileContent)
   ))
