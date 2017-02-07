@@ -30,6 +30,11 @@ a, button, input {
   -webkit-tap-highlight-color: transparent;
 }
 
+a, button {
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
 a, button, input, p, span, h1, h2, h3 {
   font-family: 'San Francisco', 'Helvetica Neue', 'Helvetica';
 }
@@ -211,6 +216,12 @@ a, button, input, p, span, h1, h2, h3 {
   height: 50vh;
   position: absolute;
   top: 0;
+  left: 0;
+}
+
+.timer-content > span:first-child {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
