@@ -139,7 +139,9 @@ class App extends Component {
         />
 
       case 'finished':
-        return <FinishedPage />
+        return <FinishedPage 
+          isGameOwner={isGameOwner}
+        />
 
       default:
         return <WelcomePage />
