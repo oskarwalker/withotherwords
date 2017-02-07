@@ -57,11 +57,9 @@ class WelcomePage extends Component {
 
   dialogBoxOpen () {
     if(window.cordova && window.TapticEngine) {
-      if(this.state.game.wordIndex !== game.wordIndex) {
-        window.TapticEngine.impact({style: 'light'})
-      }
+      window.TapticEngine.impact({style: 'light'})
     }
-    
+
     this.setState({
       isShowingModal: true
     })
