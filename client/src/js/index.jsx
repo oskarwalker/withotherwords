@@ -12,6 +12,8 @@ function renderApp (props = {}) {
 }
 
 if (window.cordova) {
+  window.document.body.classList.add(window.cordova.platformId)
+  
   fetch('https://wow.oskarwalker.se/initial-props', {
     credentials: 'include'
   })
