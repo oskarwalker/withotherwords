@@ -80,7 +80,8 @@ async function startRound (socket, db, connection, sessionId, code) {
               .table('games')
               .get(game.id)
               .update({
-                status: 'finished'
+                status: 'finished',
+                endScore: game.players
               })
               .run(connection))
           } else {
