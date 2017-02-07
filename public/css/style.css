@@ -523,6 +523,7 @@ a, button, input, p, span, h1, h2, h3 {
   height: 80px;
   position: absolute;
   right: 0px;
+  top: 0px;
   display: flex;
   flex-direction: column;
   align-items: center;
