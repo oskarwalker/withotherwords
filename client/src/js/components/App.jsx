@@ -47,10 +47,19 @@ class App extends Component {
       connected: false
     }))
 
-    socket.on('game.update', game => this.setState({
-      ...this.state,
-      game
-    }))
+    socket.on('game.update', game => {
+
+      if(window.cordova && window.TapticEngine) {
+        if(this.state.game.wordIndex !== game.wordIndex) {
+          window.TapticEngine.impact({style: 'light'})
+        }
+      }
+
+      this.setState({
+        ...this.state,
+        game
+      })
+    })
 
     socket.on('game.add', game => this.setState({
       ...this.state,
