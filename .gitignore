@@ -20,3 +20,4 @@ cordova/hooks
 #general
 node_modules
 dh
+.docker
