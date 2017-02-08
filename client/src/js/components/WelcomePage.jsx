@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import InputButton from './InputButton.jsx'
 import TeamNameForm from './TeamNameForm.jsx'
 import GameCodeForm from './GameCodeForm.jsx'
 import DialogContainer from './DialogContainer.jsx'
@@ -56,7 +55,7 @@ class WelcomePage extends Component {
   }
 
   dialogBoxOpen () {
-    if(window.cordova && window.TapticEngine) {
+    if (window.cordova && window.TapticEngine) {
       window.TapticEngine.impact({style: 'light'})
     }
 
@@ -75,9 +74,9 @@ class WelcomePage extends Component {
     return (
       <div>
         <TeamNameForm onChange={this.onTeamNameChange} />
-        <div className="start-buttons">
-      <button className="button-big" disabled={this.state.teamName.length < 1} onClick={this.dialogBoxOpen}>Anslut till ett spel</button>
-      <button className="button-big" disabled={this.state.teamName.length < 1} onClick={this.createNewGame}>Skapa nytt spel</button>
+        <div className='start-buttons'>
+          <button className='button-big' disabled={this.state.teamName.length < 1} onClick={this.dialogBoxOpen}>Anslut till ett spel</button>
+          <button className='button-big' disabled={this.state.teamName.length < 1} onClick={this.createNewGame}>Skapa nytt spel</button>
         </div>
         {this.state.isShowingModal &&
           <DialogContainer onClick={this.dialogBoxClose}>

@@ -1,7 +1,7 @@
 import React from 'react'
 import timer from 'react-timer-hoc'
 
-const leftPad = (string, length, padChar = '0') => String(string).length >= length ? '' + string : (String(padChar).repeat(length) + string).slice(-length);
+const leftPad = (string, length, padChar = '0') => String(string).length >= length ? '' + string : (String(padChar).repeat(length) + string).slice(-length)
 
 const CountdownBase = ({ timer, synchronizeWith, offset, roundTime }) => {
   const now = Date.now() - offset

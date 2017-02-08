@@ -7,7 +7,6 @@ import BeforeRoundPage from './BeforeRoundPage.jsx'
 import FinishedPage from './FinishedPage.jsx'
 
 import 'react-fastclick'
-import 'whatwg-fetch'
 
 const window = window || global
 
@@ -48,9 +47,8 @@ class App extends Component {
     }))
 
     socket.on('game.update', game => {
-
-      if(window.cordova && window.TapticEngine) {
-        if(this.state.game.wordIndex !== game.wordIndex) {
+      if (window.cordova && window.TapticEngine) {
+        if (this.state.game.wordIndex !== game.wordIndex) {
           window.TapticEngine.impact({style: 'light'})
         }
       }
@@ -102,11 +100,11 @@ class App extends Component {
 
     if (window.cordova) {
       this.setState({
-        socket: io.connect('https://wow.oskarwalker.se') // eslint-disable-line no-use-before-define
+        socket: io.connect('https://wow.oskarwalker.se') // eslint-disable-line no-undef
       }, onSocketSet)
     } else {
       this.setState({
-        socket: io.connect() // eslint-disable-line no-use-before-define
+        socket: io.connect() // eslint-disable-line no-undef
       }, onSocketSet)
     }
 
@@ -148,7 +146,7 @@ class App extends Component {
         />
 
       case 'finished':
-        return <FinishedPage 
+        return <FinishedPage
           players={this.state.game.endScore}
           isGameOwner={isGameOwner}
         />

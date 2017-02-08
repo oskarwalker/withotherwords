@@ -1,4 +1,5 @@
-const safe = require('../lib/safe')
+const safe = require('server/lib/safe')
+const log = require('server/lib/log')
 
 async function replayGame (socket, db, connection, sessionId) {
   // Get current game
@@ -16,12 +17,12 @@ async function replayGame (socket, db, connection, sessionId) {
 
   if (gamesError) {
     socket.emit('gameError', 'Something went wrong.')
-    return 
+    return
   }
 
   if (games.length === 0) {
     socket.emit('gameError', 'You\'re not in a game.')
-    return 
+    return
   }
 
   const game = games.shift()
@@ -44,9 +45,13 @@ async function replayGame (socket, db, connection, sessionId) {
       players: game.players.map(player => Object.assign({}, player, {points: 0})),
       maxTurns: -1,
       currentTurn: -1,
-      currentPlayerId: -1,
+      currentPlayerId: -1
     })
     .run(connection))
+
+  if (updateError) {
+    log.error(updateError, socket)
+  }
 }
 
 module.exports = replayGame

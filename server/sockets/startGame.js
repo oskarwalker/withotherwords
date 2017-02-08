@@ -24,7 +24,7 @@ async function startGame (socket, db, connection, sessionId, rounds = 2) {
       status: 'idle',
       currentPlayerId: currentPlayerId,
       maxTurns,
-      currentTurn: 1,
+      currentTurn: 1
     })
     .run(connection)
     .catch(err => {

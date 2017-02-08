@@ -12,7 +12,6 @@ const skipWord = require('./skipWord.js')
 const replayGame = require('./replayGame.js')
 
 const { gamePrivateFields } = require('../db/helper/game')
-const { playerPrivateFields } = require('../db/helper/player')
 
 function setupSocket (socketio, db, connection) {
   // Setup sockets

@@ -34,8 +34,8 @@ module.exports = async function (app, db, connection, req, res) {
     'utf8',
     (err, fileContent) => err ? reject(err) : resolve(fileContent)
   ))
-  .then(fileContent => fileContent.replace('${reactContent}', reactContent))
-  .then(fileContent => fileContent.replace('${initialProps}', JSON.stringify(props)))
+  .then(fileContent => fileContent.replace('${reactContent}', reactContent)) // eslint-disable-line no-template-curly-in-string
+  .then(fileContent => fileContent.replace('${initialProps}', JSON.stringify(props))) // eslint-disable-line no-template-curly-in-string
   .then(html => res.status(200).send(html))
   .catch(ex => res.status(500).send('Something went wrong'))
 }

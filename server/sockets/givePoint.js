@@ -1,4 +1,5 @@
-const safe = require('../lib/safe')
+const safe = require('server/lib/safe')
+const log = require('server/lib/log')
 
 async function givePoint (socket, db, connection, sessionId) {
   const [gamesCursorError, gamesCursor] = await safe(db
@@ -6,7 +7,17 @@ async function givePoint (socket, db, connection, sessionId) {
   .filter(game => game('players').contains(player => player('sessionId').eq(sessionId)))
   .run(connection))
 
+  if (gamesCursorError) {
+    log.error(gamesCursorError, socket)
+    return
+  }
+
   const [gamesError, games] = await safe(gamesCursor.toArray())
+
+  if (gamesError) {
+    log.error(gamesError, socket)
+    return
+  }
 
   if (games.length === 0) {
     socket.emit('gameError', 'You\'re not in a game. Can not give point.')
@@ -17,9 +28,9 @@ async function givePoint (socket, db, connection, sessionId) {
   if (
     game.status !== 'running' ||
     game.roundEndTime <= Date.now()
-  )  {
+  ) {
     socket.emit('gameError', 'The round has ended, can\'t give points now.')
-    return 
+    return
   }
 
   const currentPlayerId = game.currentPlayerId
@@ -41,6 +52,10 @@ async function givePoint (socket, db, connection, sessionId) {
   .update({players: newPlayers, wordIndex: game.wordIndex + 1})
   .run(connection))
 
+  if (updateError) {
+    log.error(updateError, socket)
+    return
+  }
 }
 
 module.exports = givePoint

@@ -33,7 +33,8 @@
     "react-timer-hoc": "^2.0.2",
     "rethinkdb": "2.3.3",
     "socket.io": "1.7.2",
-    "timesync-socket": "^1.0.0"
+    "timesync-socket": "^1.0.0",
+    "winston": "^2.3.1"
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",

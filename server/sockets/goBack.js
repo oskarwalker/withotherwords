@@ -1,7 +1,8 @@
-const safe = require('../lib/safe')
+const safe = require('server/lib/safe')
+const log = require('server/lib/log')
 
 function degradeStatus (socket, db, connection, sessionId, game) {
-  switch(game.status) {
+  switch (game.status) {
     case 'waitingforplayers':
       return degradeWaitingforplayers(...arguments)
     case 'idle':
@@ -21,27 +22,46 @@ async function leaveOrEndGame (socket, db, connection, sessionId, game) {
       .get(game.id)
       .delete()
       .run(connection))
+
+    if (removeError) {
+      log.error(removeError, socket)
+      return
+    }
   } else {
     // Leave game if not owner
-    const [updateError, updateResult] = await safe(db
+    const [updateError] = await safe(db
       .table('games')
       .get(game.id)
       .update({
         players: game.players.filter(player => player.sessionId !== sessionId)
       })
       .run(connection))
+
+    if (updateError) {
+      log.error(updateError, socket)
+      return
+    }
   }
 }
 
 async function degradeRunning (socket, db, connection, sessionId, game) {
-  
   const [playerCursorError, playerCursor] = await safe(db
     .table('games')
     .concatMap(game => game('players'))
     .filter(player => player('sessionId').eq(sessionId))
     .run(connection))
 
+  if (playerCursorError) {
+    log.error(playerCursorError, socket)
+    return
+  }
+
   const [playersError, players] = await safe(playerCursor.toArray())
+
+  if (playersError) {
+    log.error(playersError, socket)
+    return
+  }
 
   const player = players.shift()
 
@@ -56,6 +76,11 @@ async function degradeRunning (socket, db, connection, sessionId, game) {
         status: 'idle'
       })
       .run(connection))
+
+    if (updateError) {
+      log.error(updateError, socket)
+      return
+    }
   } else {
     socket.emit('gameError', 'You can not cancel the round right now.')
   }
@@ -81,26 +106,25 @@ async function goBack (socket, db, connection, sessionId) {
     .run(connection))
 
   if (gamesCursorError) {
-    socket.emit('gameError', 'Something went wrong.')
+    log.error(gamesCursorError, socket)
     return
   }
 
   const [gamesError, games] = await safe(gamesCursor.toArray())
 
   if (gamesError) {
-    socket.emit('gameError', 'Something went wrong.')
-    return 
+    log.error(gamesError, socket)
+    return
   }
 
   if (games.length === 0) {
     socket.emit('gameError', 'You\'re not in a game.')
-    return 
+    return
   }
 
   const game = games.shift()
 
   degradeStatus(socket, db, connection, sessionId, game)
-
 }
 
 module.exports = goBack

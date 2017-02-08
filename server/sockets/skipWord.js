@@ -1,5 +1,5 @@
-const safe = require('../lib/safe')
-const { incrementWordIndex } = require('../db/helper/game')
+const safe = require('server/lib/safe')
+const { incrementWordIndex } = require('server/db/helper/game')
 
 async function skipWord (socket, db, connection, sessionId) {
   // Get current game
@@ -17,19 +17,19 @@ async function skipWord (socket, db, connection, sessionId) {
 
   if (gamesError) {
     socket.emit('gameError', 'Something went wrong.')
-    return 
+    return
   }
 
   if (games.length === 0) {
     socket.emit('gameError', 'You\'re not in a game.')
-    return 
+    return
   }
 
   const game = games.shift()
 
   if (game.status !== 'running') {
     socket.emit('gameError', 'The game is not running.')
-    return 
+    return
   }
 
   const [updateGameError] = await safe(incrementWordIndex(socket, db, connection, game))
