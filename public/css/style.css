@@ -185,7 +185,7 @@ a, button, input, p, span, h1, h2, h3 {
 
 .timer-bg {
   fill: none;
-  stroke: #f3f3f3;
+  stroke: rgba(23, 23, 23, 0.04);
   stroke-width: 20;
 }
 
