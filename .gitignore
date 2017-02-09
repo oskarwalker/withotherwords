@@ -3,7 +3,7 @@ processes.json
 rethinkdb_data
 docker
 sftp-config.json
-public/*
+public
 words/words.json
 
 # IOS / Xcode

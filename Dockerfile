@@ -12,7 +12,7 @@ RUN npm install pm2
 
 ADD . /opt/wow/app
 
-RUN $HOME/.yarn/bin/yarn run js:build:production
+RUN $HOME/.yarn/bin/yarn run build:all:production
 
 EXPOSE 3000
 CMD ["./node_modules/pm2/bin/pm2", "start", "processes.json", "--no-daemon"]
