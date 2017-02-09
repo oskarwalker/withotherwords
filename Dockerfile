@@ -8,7 +8,7 @@ WORKDIR /opt/wow/app
 COPY package.json yarn.lock /opt/wow/app/
 RUN yarn install --pure-lockfile
 
-RUN yarn install pm2
+RUN npm install pm2
 
 ADD . /opt/wow/app
 
