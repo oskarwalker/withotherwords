@@ -387,6 +387,22 @@ a, button, input, p, span, h1, h2, h3 {
 
 .button-point {
   background-color: #4dd67d;
+  height: 140px;
+  width: 140px;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  margin-left: -70px;
+  bottom: 200px;
+}
+
+.button-point-note {
+  display: block;
+  text-align: center;
+  font-size: 14px;
+  position: absolute;
+  bottom: 355px;
+  width: 100%;
 }
 
 .button-replay {
@@ -589,4 +605,8 @@ a, button, input, p, span, h1, h2, h3 {
   text-align: center;
   background: none;
   border: none;
+}
+
+.referee-game-page {
+  height: 100vh;
 }
