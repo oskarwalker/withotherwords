@@ -33,7 +33,7 @@ class App extends Component {
 
   setupSocket (socket) {
     // Setup time sync
-    tss.setup(socket)
+    tss.setup(socket, { interval: 300, idleInterval: 4000 })
 
     socket.on('connect', () => {
       if (this.state.connected === false) {
