@@ -610,3 +610,12 @@ a, button, input, p, span, h1, h2, h3 {
 .referee-game-page {
   height: 100vh;
 }
+
+.current-word-referee {
+  display: block;
+  text-align: center;
+  font-size: 20px;
+  position: absolute;
+  width: 100%;
+  bottom: 500px;
+}
