@@ -10,13 +10,8 @@ function replayGame (socket) {
 }
 
 const FinishedPage = ({ players, isGameOwner }, { socket }) => {
-  // console.log(players)
-
   const sortedPlayers = sortPlayersByPoints(players.slice())
-
   const winner = [sortedPlayers.shift()]
-
-  console.log(sortedPlayers)
 
   return (
     <div className='page-finished'>
