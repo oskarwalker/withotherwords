@@ -1,36 +1,37 @@
-async function startGame (socket, db, sessionId, rounds = 2) {
-  const game = (await db
-    .table('games')
-    .filter({sessionId})
-    .run(db.connection)
-    .then(cursor => cursor.toArray())
-    .catch(err => {
-      socket.emit('gameError', 'Could not start game right now.')
-      console.log(err)
-    })
-    )[0]
+const safe = require('server/lib/safe')
+const log = require('server/lib/log')
+const { getGameBySession } = require('server/db/game')
 
-  if (game.sessionId !== sessionId) {
+async function startGame (socket, db, sessionId, rounds = 2) {
+  // get current game
+  const [gameError, game] = await safe(getGameBySession(db, sessionId, { privateFields: true }))
+  if (gameError) return log.error(gameError, socket)
+
+  if (game === null) {
+    socket.emit('gameError', 'You\'re not in a game. Can not start game.')
+    return
+  }
+
+  if (game.players.length < 2) {
+    socket.emit('gameError', 'You need at least 2 player to start a game.')
     return
   }
 
   const currentPlayerId = game.players.find(player => player.sessionId === game.sessionId).id
 
-  const maxTurns = rounds * game.players.length
+  const maxTurns = (isNaN(rounds) ? parseInt(rounds, 10) : rounds) * game.players.length
 
-  db.table('games')
+  const [updateError] = await safe(db.table('games')
     .get(game.id)
     .update({
       status: 'idle',
-      currentPlayerId: currentPlayerId,
+      currentPlayerId,
       maxTurns,
       currentTurn: 1
     })
-    .run(db.connection)
-    .catch(err => {
-      socket.emit('gameError', 'Could not start game right now.')
-      console.log(err)
-    })
+    .run(db.connection))
+
+  if (updateError) return log.error(gameError, socket)
 }
 
 module.exports = startGame

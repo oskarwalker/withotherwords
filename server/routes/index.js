@@ -1,3 +1,5 @@
+const safe = require('server/lib/safe')
+const log = require('server/lib/log')
 const { ROUND_TIME } = require('server/config')
 const { getGameBySession } = require('server/db/game')
 const { getPlayerBySession } = require('server/db/player')
@@ -10,20 +12,20 @@ function setupRoutes (app, db, socketio) {
       game: {},
       player: {},
       config: {
-        roundTime: ROUND_TIME,
+        roundTime: ROUND_TIME
       }
     }
 
     if (sessionId) {
-      let [gameError, gameObject] = await safe(getGameBySession(sessionId, db))
-    
+      let [gameError, gameObject] = await safe(getGameBySession(db, sessionId))
+
       if (gameError) {
         log.error(gameError)
       }
       props.game = gameObject
 
-      let [playerError, playerObject] = await safe(getPlayerBySession(sessionId, db))
-      
+      let [playerError, playerObject] = await safe(getPlayerBySession(db, sessionId))
+
       if (playerError) {
         log.error(playerError)
       }

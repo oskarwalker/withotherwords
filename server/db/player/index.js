@@ -1,18 +1,20 @@
 const safe = require('server/lib/safe')
 const playerPrivateFields = ['sessionId']
 
-const getPlayerBySession = (sessionId, db, options = { privateFields: false }) =>
+const tableName = 'players'
+
+const getPlayerBySession = (db, sessionId, options = { privateFields: false }) =>
 new Promise(async (resolve, reject) => {
   let playersQuery = db
     .table('games')
-    .concatMap(game => game('players'))
+    .concatMap(game => game(tableName))
     .filter(player => player('sessionId').eq(sessionId))
 
   if (options.privateFields !== true) {
     playersQuery = playersQuery
       .without(playerPrivateFields)
   }
-  
+
   const [playersCursorError, playersCursor] = await safe(playersQuery.run(db.connection))
 
   if (playersCursorError) {
@@ -32,7 +34,7 @@ new Promise(async (resolve, reject) => {
     return
   }
 
-  resolve({})
+  resolve(null)
 })
 
 module.exports = {

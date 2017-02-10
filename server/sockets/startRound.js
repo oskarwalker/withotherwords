@@ -1,164 +1,87 @@
 const safe = require('server/lib/safe')
 const log = require('server/lib/log')
+const { getGameBySession, getPlayersByGame, updateGame } = require('server/db/game')
+const { getPlayerBySession } = require('server/db/player')
 
 const { ROUND_TIME, ROUND_TIMEOFFSET } = require('server/config')
 
-async function startRound (socket, db, sessionId, code) {
-  if (code === undefined) {
-    socket.emit('gameError', 'You need specify the game\'s code to start round')
+function getNextCurrentPlayerId (players, currentPlayerId) {
+  const currentPlayer = players.find(player => player.id === currentPlayerId)
+  const currentPlayerIndex = players.indexOf(currentPlayer)
+
+  // Circular rounds
+  if (currentPlayerIndex === players.length - 1) {
+    return players.shift().id
+  } else {
+    return players[currentPlayerIndex + 1].id
+  }
+}
+
+async function resetGame (socket, db, id) {
+  // Get game by id
+  const [gameError, game] = await safe(db.table('games').get(id).run(db.connection))
+  if (gameError) return log.error(gameError, socket)
+
+  // Get the players of the game
+  const [playersError, players] = await safe(getPlayersByGame(db, game.id))
+  if (playersError) return log.error(playersError, socket)
+
+  const updateObject = {
+    roundEndTime: 0,
+    roundStartTime: 0,
+    status: 'idle'
+  }
+
+  // Should game end?
+  if (game.currentTurn === game.maxTurns) {
+    updateObject.status = 'finished'
+    updateObject.endScore = game.players
+  } else {
+    // update currentPlayerId for next round
+    updateObject.currentPlayerId = getNextCurrentPlayerId(players, game.currentPlayerId)
+    updateObject.currentTurn = game.currentTurn + 1
+  }
+
+  const [updateGameError] = await safe(updateGame(db, game.id, updateObject))
+  if (updateGameError) return log.error(updateGameError, socket)
+}
+
+async function startRound (socket, db, sessionId) {
+  // get current game
+  const [gameError, game] = await safe(getGameBySession(db, sessionId, { privateFields: true }))
+  if (gameError) return log.error(gameError, socket)
+
+  if (game === null) {
+    socket.emit('gameError', 'You\'re not in a game. Can not start round.')
     return
   }
 
-  const [currentPlayerIdCursorError, currentPlayerIdCursor] = await safe(db
+  // get current player
+  const [playerError, player] = await safe(getPlayerBySession(db, sessionId, { privateFields: true }))
+  if (playerError) return log.error(playerError, socket)
+
+  if (game.currentPlayerId !== player.id) {
+    socket.emit('gameError', 'It\'s not your turn. Can not start round.')
+    return
+  }
+
+  const [updateError] = await safe(db
     .table('games')
-    .filter({code})
-    .withFields(['currentPlayerId'])
+    .filter({id: game.id})
+    .update({
+      roundEndTime: Date.now() + ROUND_TIME + ROUND_TIMEOFFSET,
+      roundStartTime: Date.now() + ROUND_TIMEOFFSET,
+      status: 'running'
+    })
     .run(db.connection))
 
-  if (currentPlayerIdCursorError) {
-    log.error(currentPlayerIdCursorError, socket)
+  if (updateError) {
+    log.error(updateError, socket)
     return
   }
 
-  const [currentPlayersError, currentPlayers] = await safe(currentPlayerIdCursor.toArray())
-
-  if (currentPlayersError) {
-    log.error(currentPlayersError, socket)
-    return
-  }
-
-  const currentPlayerId = currentPlayers.shift().currentPlayerId
-
-  const [playerCursorError, playerCursor] = await safe(db
-    .table('games')
-    .filter({code})
-    .concatMap(game => game('players'))
-    .filter({sessionId, id: currentPlayerId})
-    .run(db.connection))
-
-  if (playerCursorError) {
-    log.error(playerCursorError, socket)
-    return
-  }
-
-  const [playersError, players] = await safe(playerCursor.toArray())
-
-  if (playersError) {
-    log.error(playersError, socket)
-    return
-  }
-
-  if (players.length > 0) {
-    const [updateError] = await safe(db
-      .table('games')
-      .filter({code})
-      .update({
-        roundEndTime: Date.now() + ROUND_TIME + ROUND_TIMEOFFSET,
-        roundStartTime: Date.now() + ROUND_TIMEOFFSET,
-        status: 'running'
-      })
-      .run(db.connection))
-
-    if (updateError) {
-      log.error(updateError, socket)
-      return
-    }
-
-    // Reset game after elapsed game
-    setTimeout(async () => {
-      const [updateStatusError] = await safe(db
-        .table('games')
-        .filter({code})
-        .update({
-          roundEndTime: 0,
-          roundStartTime: 0,
-          status: 'idle'
-        })
-        .run(db.connection))
-
-      if (updateStatusError) {
-        log.error(updateStatusError, socket)
-        return
-      }
-
-      const [playersCursorError, playersCursor] = await safe(db
-        .table('games')
-        .filter({code})
-        .concatMap(game => game('players'))
-        .run(db.connection))
-
-      if (playersCursorError) {
-        log.error(playersCursorError, socket)
-        return
-      }
-
-      const [allPlayersError, allPlayers] = await safe(playersCursor.toArray())
-
-      if (allPlayersError) {
-        log.error(allPlayersError, socket)
-        return
-      }
-
-      const currentPlayer = allPlayers.find(player => player.id === currentPlayerId)
-      const currentPlayerIndex = allPlayers.indexOf(currentPlayer)
-
-      let nextPlayer
-      if (currentPlayerIndex === allPlayers.length - 1) {
-        nextPlayer = allPlayers[0]
-      } else {
-        nextPlayer = allPlayers[currentPlayerIndex + 1]
-      }
-
-      const [gameCursorError, gameCursor] = await safe(db
-        .table('games')
-        .filter({code})
-        .run(db.connection))
-
-      if (gameCursorError) {
-        log.error(gameCursorError, socket)
-        return
-      }
-
-      const [gamesError, games] = await safe(gameCursor.toArray())
-
-      if (gamesError) {
-        log.error(gamesError, socket)
-        return
-      }
-
-      const game = games.shift()
-
-      if (game.currentTurn === game.maxTurns) {
-        const [gameUpdateError] = await safe(db
-          .table('games')
-          .get(game.id)
-          .update({
-            status: 'finished',
-            endScore: game.players
-          })
-          .run(db.connection))
-
-        if (gameUpdateError) {
-          log.error(gameUpdateError, socket)
-          return
-        }
-      } else {
-        const [replayGameError] = await safe(db
-          .table('games')
-          .filter({code})
-          .update({
-            currentPlayerId: nextPlayer.id,
-            currentTurn: game.currentTurn + 1
-          })
-          .run(db.connection))
-
-        if (replayGameError) {
-          log.error(replayGameError, socket)
-          return
-        }
-      }
-    }, ROUND_TIME + ROUND_TIMEOFFSET)
-  }
+  // Reset game after elapsed game
+  setTimeout(resetGame.bind(null, socket, db, game.id), ROUND_TIME + ROUND_TIMEOFFSET)
 }
 
 module.exports = startRound

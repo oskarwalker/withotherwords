@@ -1,52 +1,55 @@
+const sanitizer = require('sanitizer')
+const safe = require('server/lib/safe')
+const log = require('server/lib/log')
+const { sampleWordsByCategories } = require('server/db/words')
+
+function randomCode (low, high) {
+  return Math.floor(Math.random() * (high - low + 1) + low)
+}
+
 async function createNewGame (socket, db, sessionId, name, categories = []) {
-  try {
-    const randomCode = (low, high) => Math.floor(Math.random() * (high - low + 1) + low)
+  // Sanitize input
+  name = sanitizer.sanitize(name)
 
-    let wordCursor = db
-      .table('words')
-
-    if (categories.length !== 0) {
-      wordCursor = wordCursor.getAll(...categories, {index: 'category'})
-    }
-
-    wordCursor = await wordCursor
-      .sample(100)
-      .run(db.connection)
-
-    const words = await wordCursor.toArray()
-
-    const newPlayerId = await db.uuid().run(db.connection)
-
-    const playerObject = {
-      id: newPlayerId,
-      sessionId,
-      name,
-      points: 0
-    }
-
-    const gameObject = {
-      sessionId,
-      ownerId: newPlayerId,
-      players: [playerObject],
-      code: randomCode(10000, 90000),
-      status: 'waitingforplayers',
-      roundEndTime: 0,
-      roundStartTime: 0,
-      words,
-      wordIndex: 0
-    }
-
-    db.table('games')
-      .insert(gameObject)
-      .run(db.connection)
-      .then(() => {
-        socket.emit('player.add', playerObject)
-      })
-      .catch(err => { throw err })
-  } catch (ex) {
-    socket.emit('gameError', 'Something went wrong.')
-    console.log(ex)
+  if (!name) {
+    socket.emit('gameError', 'Please provide a team name to join a game.')
+    return
   }
+
+  const [wordsError, words] = await safe(sampleWordsByCategories(db, categories, 100))
+  if (wordsError) return log.error(wordsError, socket)
+
+  const [newPlayerIdError, newPlayerId] = await safe(db.uuid().run(db.connection))
+  if (newPlayerIdError) return log.error(newPlayerIdError, socket)
+
+  const playerObject = {
+    id: newPlayerId,
+    sessionId,
+    name,
+    points: 0
+  }
+
+  const gameObject = {
+    sessionId,
+    ownerId: newPlayerId,
+    players: [playerObject],
+    code: randomCode(10000, 90000),
+    status: 'waitingforplayers',
+    roundEndTime: 0,
+    roundStartTime: 0,
+    words,
+    wordIndex: 0
+  }
+
+  const [insertError] = await safe(
+    db.table('games')
+    .insert(gameObject)
+    .run(db.connection))
+
+  if (insertError) return log.error(insertError, socket, 'Could not create game right now')
+
+  delete playerObject[sessionId]
+  socket.emit('player.add', playerObject)
 }
 
 module.exports = createNewGame

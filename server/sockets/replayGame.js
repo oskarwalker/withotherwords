@@ -1,31 +1,19 @@
 const safe = require('server/lib/safe')
 const log = require('server/lib/log')
+const { getGameBySession } = require('server/db/game')
 
 async function replayGame (socket, db, sessionId) {
-  // Get current game
-  const [gamesCursorError, gamesCursor] = await safe(db
-    .table('games')
-    .filter(game => game('players').contains(player => player('sessionId').eq(sessionId)))
-    .run(db.connection))
+  const [gameError, game] = await safe(getGameBySession(db, sessionId, { privateFields: true }))
 
-  if (gamesCursorError) {
-    socket.emit('gameError', 'Something went wrong.')
+  if (gameError) {
+    log.error(gameError, socket)
     return
   }
 
-  const [gamesError, games] = await safe(gamesCursor.toArray())
-
-  if (gamesError) {
-    socket.emit('gameError', 'Something went wrong.')
-    return
-  }
-
-  if (games.length === 0) {
+  if (game === null) {
     socket.emit('gameError', 'You\'re not in a game.')
     return
   }
-
-  const game = games.shift()
 
   if (game.sessionId !== sessionId) {
     socket.emit('gameError', 'Only the owner can replay the game.')

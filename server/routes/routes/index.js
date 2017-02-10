@@ -13,20 +13,20 @@ module.exports = async function (app, db, req, res) {
     game: {},
     player: {},
     config: {
-      roundTime: ROUND_TIME,
+      roundTime: ROUND_TIME
     }
   }
 
   if (sessionId) {
-    let [gameError, game] = await safe(getGameBySession(sessionId, db))
-    
+    let [gameError, game] = await safe(getGameBySession(db, sessionId))
+
     if (gameError) {
       log.error(gameError)
     }
     props.game = game
 
-    let [playerError, player] = await safe(getPlayerBySession(sessionId, db))
-    
+    let [playerError, player] = await safe(getPlayerBySession(db, sessionId))
+
     if (playerError) {
       log.error(playerError)
     }

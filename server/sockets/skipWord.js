@@ -1,44 +1,24 @@
 const safe = require('server/lib/safe')
-const { incrementWordIndex } = require('server/db/game')
+const log = require('server/lib/log')
+const { getGameBySession, incrementWordIndex } = require('server/db/game')
 
 async function skipWord (socket, db, sessionId) {
-  // Get current game
-  const [gamesCursorError, gamesCursor] = await safe(db
-    .table('games')
-    .filter(game => game('players').contains(player => player('sessionId').eq(sessionId)))
-    .run(db.connection))
+  const [gameError, game] = await safe(getGameBySession(db, sessionId, { privateFields: true }))
+  if (gameError) return log.error(gameError, socket)
 
-  if (gamesCursorError) {
-    socket.emit('gameError', 'Something went wrong.')
-    return
-  }
-
-  const [gamesError, games] = await safe(gamesCursor.toArray())
-
-  if (gamesError) {
-    socket.emit('gameError', 'Something went wrong.')
-    return
-  }
-
-  if (games.length === 0) {
+  if (game === null) {
     socket.emit('gameError', 'You\'re not in a game.')
     return
   }
 
-  const game = games.shift()
-
   if (game.status !== 'running') {
-    socket.emit('gameError', 'The game is not running.')
+    // Drop this silent, no need to notfify player
+    // socket.emit('gameError', 'The game is not running.')
     return
   }
 
-  const [updateGameError] = await safe(incrementWordIndex(socket, db, game))
-
-  if (updateGameError) {
-    socket.emit('gameError', 'Something went wrong.')
-    console.log(updateGameError)
-    return
-  }
+  const [updateGameError] = await safe(incrementWordIndex(db, sessionId, game))
+  if (updateGameError) return log.error(updateGameError, socket)
 }
 
 module.exports = skipWord

@@ -1,29 +1,16 @@
 const safe = require('server/lib/safe')
 const log = require('server/lib/log')
+const { getGameBySession } = require('server/db/game')
 
 async function givePoint (socket, db, sessionId) {
-  const [gamesCursorError, gamesCursor] = await safe(db
-  .table('games')
-  .filter(game => game('players').contains(player => player('sessionId').eq(sessionId)))
-  .run(db.connection))
+  const [gameError, game] = await safe(getGameBySession(db, sessionId, { privateFields: true }))
+  if (gameError) return log.error(gameError, socket)
 
-  if (gamesCursorError) {
-    log.error(gamesCursorError, socket)
+  if (game === null) {
+    // Drop this silent, no need to notfify player
+    // socket.emit('gameError', 'You\'re not in a game. Can not give point.')
     return
   }
-
-  const [gamesError, games] = await safe(gamesCursor.toArray())
-
-  if (gamesError) {
-    log.error(gamesError, socket)
-    return
-  }
-
-  if (games.length === 0) {
-    socket.emit('gameError', 'You\'re not in a game. Can not give point.')
-  }
-
-  const game = games.shift()
 
   if (
     game.status !== 'running' ||
@@ -52,10 +39,7 @@ async function givePoint (socket, db, sessionId) {
   .update({players: newPlayers, wordIndex: game.wordIndex + 1})
   .run(db.connection))
 
-  if (updateError) {
-    log.error(updateError, socket)
-    return
-  }
+  if (updateError) return log.error(updateError, socket)
 }
 
 module.exports = givePoint

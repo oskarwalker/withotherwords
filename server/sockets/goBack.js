@@ -1,5 +1,6 @@
 const safe = require('server/lib/safe')
 const log = require('server/lib/log')
+const { getGameBySession } = require('server/db/game')
 
 function degradeStatus (socket, db, sessionId, game) {
   switch (game.status) {
@@ -99,30 +100,17 @@ async function degradeFinished (socket, db, sessionId, game) {
 }
 
 async function goBack (socket, db, sessionId) {
-  // Get current game
-  const [gamesCursorError, gamesCursor] = await safe(db
-    .table('games')
-    .filter(game => game('players').contains(player => player('sessionId').eq(sessionId)))
-    .run(db.connection))
+  const [gameError, game] = await safe(getGameBySession(db, sessionId, { privateFields: true }))
 
-  if (gamesCursorError) {
-    log.error(gamesCursorError, socket)
+  if (gameError) {
+    log.error(gameError, socket)
     return
   }
 
-  const [gamesError, games] = await safe(gamesCursor.toArray())
-
-  if (gamesError) {
-    log.error(gamesError, socket)
-    return
-  }
-
-  if (games.length === 0) {
+  if (game === null) {
     socket.emit('gameError', 'You\'re not in a game.')
     return
   }
-
-  const game = games.shift()
 
   degradeStatus(socket, db, sessionId, game)
 }
