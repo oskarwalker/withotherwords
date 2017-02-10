@@ -1,8 +1,8 @@
-async function startGame (socket, db, connection, sessionId, rounds = 2) {
+async function startGame (socket, db, sessionId, rounds = 2) {
   const game = (await db
     .table('games')
     .filter({sessionId})
-    .run(connection)
+    .run(db.connection)
     .then(cursor => cursor.toArray())
     .catch(err => {
       socket.emit('gameError', 'Could not start game right now.')
@@ -26,7 +26,7 @@ async function startGame (socket, db, connection, sessionId, rounds = 2) {
       maxTurns,
       currentTurn: 1
     })
-    .run(connection)
+    .run(db.connection)
     .catch(err => {
       socket.emit('gameError', 'Could not start game right now.')
       console.log(err)

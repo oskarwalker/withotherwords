@@ -2,7 +2,7 @@ const { ROUND_TIME } = require('../config')
 const { getGameBySession } = require('../db/helper/game')
 const { getPlayerBySession } = require('../db/helper/player')
 
-function setupRoutes (app, db, connection, socketio) {
+function setupRoutes (app, db, socketio) {
   app.get('/initial-props', async (req, res) => {
     const sessionId = req.sessionId
 
@@ -13,8 +13,8 @@ function setupRoutes (app, db, connection, socketio) {
     }
 
     if (sessionId) {
-      props.game = await getGameBySession(sessionId, db, connection)
-      props.player = await getPlayerBySession(sessionId, db, connection)
+      props.game = await getGameBySession(sessionId, db)
+      props.player = await getPlayerBySession(sessionId, db)
       props.config = {
         roundTime: ROUND_TIME
       }
@@ -26,10 +26,10 @@ function setupRoutes (app, db, connection, socketio) {
   // setup SSR for production (due to caching in development)
   if (app.get('env') !== 'production') {
     const indexRoute = require('./routes/index')
-    app.get('/', indexRoute.bind(null, app, db, connection))
+    app.get('/', indexRoute.bind(null, app, db))
   } else {
     const indexRouteProduction = require('./routes/indexProduction')
-    app.get('/', indexRouteProduction.bind(null, app, db, connection))
+    app.get('/', indexRouteProduction.bind(null, app, db))
   }
 }
 

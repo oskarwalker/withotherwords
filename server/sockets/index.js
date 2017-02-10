@@ -13,7 +13,7 @@ const replayGame = require('./replayGame.js')
 
 const { gamePrivateFields } = require('../db/helper/game')
 
-function setupSocket (socketio, db, connection) {
+function setupSocket (socketio, db) {
   // Setup sockets
   socketio.on('connection', async (socket) => {
     const sessionId = cookie.parse(socket.handshake.headers.cookie)['__sessid']
@@ -27,7 +27,7 @@ function setupSocket (socketio, db, connection) {
     tss.setup(socket)
 
     // Register routes
-    const socketEventArgs = [socket, db, connection, sessionId]
+    const socketEventArgs = [socket, db, sessionId]
 
     socket.on('create-new-game', createNewGame.bind(null, ...socketEventArgs))
     socket.on('join-game', joinGame.bind(null, ...socketEventArgs))
@@ -44,7 +44,7 @@ function setupSocket (socketio, db, connection) {
           .filter(game => game('players').contains(player => player('sessionId').eq(sessionId)))
           .without(gamePrivateFields)
           .changes()
-          .run(connection)
+          .run(db.connection)
 
     socket.on('disconnect', () => {
       gamesChangesCursor.close()
@@ -52,7 +52,7 @@ function setupSocket (socketio, db, connection) {
 
     gamesChangesCursor.each((err, row) => {
       if (err) {
-        if (connection.open !== false) {
+        if (db.connection.open !== false) {
           console.log(err)
           return
         }

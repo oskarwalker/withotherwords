@@ -1,4 +1,4 @@
-async function createNewGame (socket, db, connection, sessionId, name, categories = []) {
+async function createNewGame (socket, db, sessionId, name, categories = []) {
   try {
     const randomCode = (low, high) => Math.floor(Math.random() * (high - low + 1) + low)
 
@@ -11,11 +11,11 @@ async function createNewGame (socket, db, connection, sessionId, name, categorie
 
     wordCursor = await wordCursor
       .sample(100)
-      .run(connection)
+      .run(db.connection)
 
     const words = await wordCursor.toArray()
 
-    const newPlayerId = await db.uuid().run(connection)
+    const newPlayerId = await db.uuid().run(db.connection)
 
     const playerObject = {
       id: newPlayerId,
@@ -38,7 +38,7 @@ async function createNewGame (socket, db, connection, sessionId, name, categorie
 
     db.table('games')
       .insert(gameObject)
-      .run(connection)
+      .run(db.connection)
       .then(() => {
         socket.emit('player.add', playerObject)
       })

@@ -1,11 +1,11 @@
 const safe = require('server/lib/safe')
 const log = require('server/lib/log')
 
-async function givePoint (socket, db, connection, sessionId) {
+async function givePoint (socket, db, sessionId) {
   const [gamesCursorError, gamesCursor] = await safe(db
   .table('games')
   .filter(game => game('players').contains(player => player('sessionId').eq(sessionId)))
-  .run(connection))
+  .run(db.connection))
 
   if (gamesCursorError) {
     log.error(gamesCursorError, socket)
@@ -50,7 +50,7 @@ async function givePoint (socket, db, connection, sessionId) {
   .table('games')
   .get(game.id)
   .update({players: newPlayers, wordIndex: game.wordIndex + 1})
-  .run(connection))
+  .run(db.connection))
 
   if (updateError) {
     log.error(updateError, socket)

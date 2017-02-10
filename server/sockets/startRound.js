@@ -3,7 +3,7 @@ const log = require('server/lib/log')
 
 const { ROUND_TIME, ROUND_TIMEOFFSET } = require('../config')
 
-async function startRound (socket, db, connection, sessionId, code) {
+async function startRound (socket, db, sessionId, code) {
   if (code === undefined) {
     socket.emit('gameError', 'You need specify the game\'s code to start round')
     return
@@ -13,7 +13,7 @@ async function startRound (socket, db, connection, sessionId, code) {
     .table('games')
     .filter({code})
     .withFields(['currentPlayerId'])
-    .run(connection))
+    .run(db.connection))
 
   if (currentPlayerIdCursorError) {
     log.error(currentPlayerIdCursorError, socket)
@@ -34,7 +34,7 @@ async function startRound (socket, db, connection, sessionId, code) {
     .filter({code})
     .concatMap(game => game('players'))
     .filter({sessionId, id: currentPlayerId})
-    .run(connection))
+    .run(db.connection))
 
   if (playerCursorError) {
     log.error(playerCursorError, socket)
@@ -57,7 +57,7 @@ async function startRound (socket, db, connection, sessionId, code) {
         roundStartTime: Date.now() + ROUND_TIMEOFFSET,
         status: 'running'
       })
-      .run(connection))
+      .run(db.connection))
 
     if (updateError) {
       log.error(updateError, socket)
@@ -74,7 +74,7 @@ async function startRound (socket, db, connection, sessionId, code) {
           roundStartTime: 0,
           status: 'idle'
         })
-        .run(connection))
+        .run(db.connection))
 
       if (updateStatusError) {
         log.error(updateStatusError, socket)
@@ -85,7 +85,7 @@ async function startRound (socket, db, connection, sessionId, code) {
         .table('games')
         .filter({code})
         .concatMap(game => game('players'))
-        .run(connection))
+        .run(db.connection))
 
       if (playersCursorError) {
         log.error(playersCursorError, socket)

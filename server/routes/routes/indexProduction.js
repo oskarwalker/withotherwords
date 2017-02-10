@@ -7,15 +7,15 @@ const { ROUND_TIME } = require('../../config')
 const { getGameBySession } = require('../../db/helper/game')
 const { getPlayerBySession } = require('../../db/helper/player')
 
-module.exports = async function (app, db, connection, req, res) {
+module.exports = async function (app, db, req, res) {
   // Prepare to send game-object
   const sessionId = req.sessionId
   let game = {}
   let player = {}
 
   if (sessionId) {
-    game = await getGameBySession(sessionId, db, connection)
-    player = await getPlayerBySession(sessionId, db, connection)
+    game = await getGameBySession(sessionId, db)
+    player = await getPlayerBySession(sessionId, db)
   }
 
   const props = {

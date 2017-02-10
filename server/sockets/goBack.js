@@ -1,7 +1,7 @@
 const safe = require('server/lib/safe')
 const log = require('server/lib/log')
 
-function degradeStatus (socket, db, connection, sessionId, game) {
+function degradeStatus (socket, db, sessionId, game) {
   switch (game.status) {
     case 'waitingforplayers':
       return degradeWaitingforplayers(...arguments)
@@ -14,14 +14,14 @@ function degradeStatus (socket, db, connection, sessionId, game) {
   }
 }
 
-async function leaveOrEndGame (socket, db, connection, sessionId, game) {
+async function leaveOrEndGame (socket, db, sessionId, game) {
    // End game if owner
   if (game.sessionId === sessionId) {
     const [removeError] = await safe(db
       .table('games')
       .get(game.id)
       .delete()
-      .run(connection))
+      .run(db.connection))
 
     if (removeError) {
       log.error(removeError, socket)
@@ -35,7 +35,7 @@ async function leaveOrEndGame (socket, db, connection, sessionId, game) {
       .update({
         players: game.players.filter(player => player.sessionId !== sessionId)
       })
-      .run(connection))
+      .run(db.connection))
 
     if (updateError) {
       log.error(updateError, socket)
@@ -44,12 +44,12 @@ async function leaveOrEndGame (socket, db, connection, sessionId, game) {
   }
 }
 
-async function degradeRunning (socket, db, connection, sessionId, game) {
+async function degradeRunning (socket, db, sessionId, game) {
   const [playerCursorError, playerCursor] = await safe(db
     .table('games')
     .concatMap(game => game('players'))
     .filter(player => player('sessionId').eq(sessionId))
-    .run(connection))
+    .run(db.connection))
 
   if (playerCursorError) {
     log.error(playerCursorError, socket)
@@ -75,7 +75,7 @@ async function degradeRunning (socket, db, connection, sessionId, game) {
         roundStartTime: 0,
         status: 'idle'
       })
-      .run(connection))
+      .run(db.connection))
 
     if (updateError) {
       log.error(updateError, socket)
@@ -86,24 +86,24 @@ async function degradeRunning (socket, db, connection, sessionId, game) {
   }
 }
 
-async function degradeWaitingforplayers (socket, db, connection, sessionId, game) {
+async function degradeWaitingforplayers (socket, db, sessionId, game) {
   leaveOrEndGame(...arguments)
 }
 
-async function degradeIdle (socket, db, connection, sessionId, game) {
+async function degradeIdle (socket, db, sessionId, game) {
   leaveOrEndGame(...arguments)
 }
 
-async function degradeFinished (socket, db, connection, sessionId, game) {
+async function degradeFinished (socket, db, sessionId, game) {
   leaveOrEndGame(...arguments)
 }
 
-async function goBack (socket, db, connection, sessionId) {
+async function goBack (socket, db, sessionId) {
   // Get current game
   const [gamesCursorError, gamesCursor] = await safe(db
     .table('games')
     .filter(game => game('players').contains(player => player('sessionId').eq(sessionId)))
-    .run(connection))
+    .run(db.connection))
 
   if (gamesCursorError) {
     log.error(gamesCursorError, socket)
@@ -124,7 +124,7 @@ async function goBack (socket, db, connection, sessionId) {
 
   const game = games.shift()
 
-  degradeStatus(socket, db, connection, sessionId, game)
+  degradeStatus(socket, db, sessionId, game)
 }
 
 module.exports = goBack

@@ -1,12 +1,12 @@
 const safe = require('server/lib/safe')
 const log = require('server/lib/log')
 
-async function replayGame (socket, db, connection, sessionId) {
+async function replayGame (socket, db, sessionId) {
   // Get current game
   const [gamesCursorError, gamesCursor] = await safe(db
     .table('games')
     .filter(game => game('players').contains(player => player('sessionId').eq(sessionId)))
-    .run(connection))
+    .run(db.connection))
 
   if (gamesCursorError) {
     socket.emit('gameError', 'Something went wrong.')
@@ -47,7 +47,7 @@ async function replayGame (socket, db, connection, sessionId) {
       currentTurn: -1,
       currentPlayerId: -1
     })
-    .run(connection))
+    .run(db.connection))
 
   if (updateError) {
     log.error(updateError, socket)

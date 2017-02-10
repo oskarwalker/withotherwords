@@ -1,6 +1,6 @@
-async function joinGame (socket, db, connection, sessionId, code, name) {
+async function joinGame (socket, db, sessionId, code, name) {
   try {
-    const newPlayerId = await db.uuid().run(connection)
+    const newPlayerId = await db.uuid().run(db.connection)
 
     const playerObject = {
       id: newPlayerId,
@@ -16,7 +16,7 @@ async function joinGame (socket, db, connection, sessionId, code, name) {
             game('players').contains(player => player('sessionId').ne(sessionId))
           )
       )
-      .run(connection)
+      .run(db.connection)
       .catch(err => { throw err })
       .then(cursor => cursor.toArray())
       .then(games => {
@@ -27,7 +27,7 @@ async function joinGame (socket, db, connection, sessionId, code, name) {
             .update({
               players: db.row('players').append(playerObject)
             })
-            .run(connection)
+            .run(db.connection)
         } else {
           socket.emit('gameError', 'You\'re already in that game!')
         }

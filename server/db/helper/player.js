@@ -1,12 +1,12 @@
 const playerPrivateFields = ['sessionId']
 
-async function getPlayerBySession (sessionId, db, connection) {
+async function getPlayerBySession (sessionId, db) {
   const playerCursor = await db
         .table('games')
         .concatMap(game => game('players'))
         .filter(player => player('sessionId').eq(sessionId))
         .without(playerPrivateFields)
-        .run(connection)
+        .run(db.connection)
 
   const players = await playerCursor.toArray()
   if (players.length > 0) {

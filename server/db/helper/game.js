@@ -7,12 +7,12 @@ const gamePrivateFields = [
   }
 ]
 
-async function getGameBySession (sessionId, db, connection) {
+async function getGameBySession (sessionId, db) {
   const gamesCursor = await db
         .table('games')
         .filter(game => game('players').contains(player => player('sessionId').eq(sessionId)))
         .without(gamePrivateFields)
-        .run(connection)
+        .run(db.connection)
 
   const games = await gamesCursor.toArray()
   if (games.length > 0) {
@@ -21,14 +21,14 @@ async function getGameBySession (sessionId, db, connection) {
   return {}
 }
 
-async function incrementWordIndex (sessionId, db, connection, game) {
+async function incrementWordIndex (sessionId, db, game) {
   return db
     .table('games')
     .get(game.id)
     .update({
       wordIndex: game.wordIndex + 1
     })
-    .run(connection)
+    .run(db.connection)
 }
 
 module.exports = {

@@ -1,12 +1,12 @@
 const safe = require('server/lib/safe')
 const { incrementWordIndex } = require('server/db/helper/game')
 
-async function skipWord (socket, db, connection, sessionId) {
+async function skipWord (socket, db, sessionId) {
   // Get current game
   const [gamesCursorError, gamesCursor] = await safe(db
     .table('games')
     .filter(game => game('players').contains(player => player('sessionId').eq(sessionId)))
-    .run(connection))
+    .run(db.connection))
 
   if (gamesCursorError) {
     socket.emit('gameError', 'Something went wrong.')
@@ -32,7 +32,7 @@ async function skipWord (socket, db, connection, sessionId) {
     return
   }
 
-  const [updateGameError] = await safe(incrementWordIndex(socket, db, connection, game))
+  const [updateGameError] = await safe(incrementWordIndex(socket, db, game))
 
   if (updateGameError) {
     socket.emit('gameError', 'Something went wrong.')

@@ -29,22 +29,22 @@ app.use(sessionMiddleware)
 
 // Connect to database and run bootstrap
 db.setup()
-  .then(connection => bootstrap(connection))
+  .then(bootstrap)
   .catch(err => {
     console.log(err)
     process.exit(1)
   })
 
-async function bootstrap (connection) {
-  await setupDatabase(db, connection)
-  setupSocket(socketio, db, connection)
-  setupRoutes(app, db, connection, socketio)
+async function bootstrap (db) {
+  await setupDatabase(db)
+  setupSocket(socketio, db)
+  setupRoutes(app, db, socketio)
 
   const port = app.get('port')
   const host = app.get('host')
 
   process.on('SIGINT', () =>
-     connection.close(err =>
+     db.connection.close(err =>
       process.exit(err ? 1 : 0)
     )
   )
