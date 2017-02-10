@@ -83,6 +83,7 @@ async function startRound (socket, db, connection, sessionId, code) {
 
       const [playersCursorError, playersCursor] = await safe(db
         .table('games')
+        .filter({code})
         .concatMap(game => game('players'))
         .run(connection))
 
