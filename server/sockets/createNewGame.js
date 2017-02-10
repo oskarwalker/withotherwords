@@ -48,7 +48,7 @@ async function createNewGame (socket, db, sessionId, name, categories = []) {
 
   if (insertError) return log.error(insertError, socket, 'Could not create game right now')
 
-  delete playerObject[sessionId]
+  delete playerObject['sessionId']
   socket.emit('player.add', playerObject)
 }
 
