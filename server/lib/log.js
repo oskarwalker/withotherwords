@@ -25,7 +25,7 @@ class Logger {
     this.internalLog(winston, winston.silly, logMessage, socket, message)
   }
 
-  internaLog (method, methodThis, logMessage, socket = null, message = 'Something went wrong.') {
+  internalLog (methodThis, method, logMessage, socket = null, message = 'Something went wrong.') {
     method.call(methodThis, logMessage)
     if (socket) {
       socket.emit(message)
