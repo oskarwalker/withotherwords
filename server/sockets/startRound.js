@@ -112,7 +112,7 @@ async function startRound (socket, db, sessionId, code) {
       const [gameCursorError, gameCursor] = await safe(db
         .table('games')
         .filter({code})
-        .run(connection))
+        .run(db.connection))
 
       if (gameCursorError) {
         log.error(gameCursorError, socket)
@@ -136,7 +136,7 @@ async function startRound (socket, db, sessionId, code) {
             status: 'finished',
             endScore: game.players
           })
-          .run(connection))
+          .run(db.connection))
 
         if (gameUpdateError) {
           log.error(gameUpdateError, socket)
@@ -150,7 +150,7 @@ async function startRound (socket, db, sessionId, code) {
             currentPlayerId: nextPlayer.id,
             currentTurn: game.currentTurn + 1
           })
-          .run(connection))
+          .run(db.connection))
 
         if (replayGameError) {
           log.error(replayGameError, socket)
