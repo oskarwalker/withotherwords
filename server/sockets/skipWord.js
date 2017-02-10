@@ -1,5 +1,5 @@
 const safe = require('server/lib/safe')
-const { incrementWordIndex } = require('server/db/helper/game')
+const { incrementWordIndex } = require('server/db/game')
 
 async function skipWord (socket, db, sessionId) {
   // Get current game

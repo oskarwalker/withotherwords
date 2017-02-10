@@ -11,7 +11,7 @@ const goBack = require('./goBack.js')
 const skipWord = require('./skipWord.js')
 const replayGame = require('./replayGame.js')
 
-const { gamePrivateFields } = require('server/db/helper/game')
+const { gamePrivateFields } = require('server/db/game')
 
 function setupSocket (socketio, db) {
   // Setup sockets
