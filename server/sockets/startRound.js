@@ -1,7 +1,7 @@
 const safe = require('server/lib/safe')
 const log = require('server/lib/log')
 
-const { ROUND_TIME, ROUND_TIMEOFFSET } = require('../config')
+const { ROUND_TIME, ROUND_TIMEOFFSET } = require('server/config')
 
 async function startRound (socket, db, sessionId, code) {
   if (code === undefined) {

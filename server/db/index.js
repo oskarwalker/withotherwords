@@ -1,5 +1,5 @@
 const r = require('rethinkdb')
-const getWordCursor = require('../data/words')
+const getWordCursor = require('server/data/words')
 
 r.setup = () => new Promise((resolve, reject) => {
   r.connect({ host: process.env.DB_HOST || 'localhost', port: 28015 })

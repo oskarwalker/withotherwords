@@ -2,10 +2,10 @@ const path = require('path')
 const fs = require('fs')
 const React = require('react')
 const ReactDOMServer = require('react-dom/server')
-const App = require('../../../client/src/js/components/App.jsx')
-const { ROUND_TIME } = require('../../config')
-const { getGameBySession } = require('../../db/helper/game')
-const { getPlayerBySession } = require('../../db/helper/player')
+const App = require('client/src/js/components/App.jsx')
+const { ROUND_TIME } = require('server/config')
+const { getGameBySession } = require('server/db/helper/game')
+const { getPlayerBySession } = require('server/db/helper/player')
 
 module.exports = async function (app, db, req, res) {
   // Prepare to send game-object

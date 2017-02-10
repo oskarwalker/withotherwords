@@ -1,6 +1,6 @@
-const { ROUND_TIME } = require('../config')
-const { getGameBySession } = require('../db/helper/game')
-const { getPlayerBySession } = require('../db/helper/player')
+const { ROUND_TIME } = require('server/config')
+const { getGameBySession } = require('server/db/helper/game')
+const { getPlayerBySession } = require('server/db/helper/player')
 
 function setupRoutes (app, db, socketio) {
   app.get('/initial-props', async (req, res) => {
