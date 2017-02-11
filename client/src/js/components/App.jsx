@@ -31,7 +31,7 @@ class App extends Component {
       words: [],
       connected: true,
       socket: undefined,
-      pageTransitionName: ''
+      pageTransitionName: 'pagePop'
     }
 
     this.getPage = this.getPage.bind(this)
