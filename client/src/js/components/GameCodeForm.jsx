@@ -2,7 +2,7 @@ import React from 'react'
 
 const GameCodeForm = ({ onChange }) => (
   <form>
-    <input type='number' onChange={onChange} />
+    <input type='number' pattern='\d*' onChange={onChange} />
   </form>
 )
 
