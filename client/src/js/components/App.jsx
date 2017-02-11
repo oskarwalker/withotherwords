@@ -31,7 +31,7 @@ class App extends Component {
       words: [],
       connected: true,
       socket: undefined,
-      pageTransitionName: '',
+      pageTransitionName: ''
     }
 
     this.getPage = this.getPage.bind(this)
@@ -134,7 +134,7 @@ class App extends Component {
     window.app = this
   }
 
-  getPage() {
+  getPage () {
     const tss = this.props.tss
 
     const isGameOwner = this.state.player.id === this.state.game.ownerId
@@ -143,7 +143,7 @@ class App extends Component {
     switch (this.state.game.status) {
       case 'waitingforplayers':
         return <LobbyPage
-          key="LobbyPage"
+          key='LobbyPage'
           players={this.state.game.players}
           gameCode={this.state.game.code}
           gameOwnerId={this.state.game.ownerId}
@@ -152,7 +152,7 @@ class App extends Component {
 
       case 'running':
         return <GamePage
-          key="GamePage"
+          key='GamePage'
           tss={tss}
           isPlayerTurn={isPlayerTurn}
           roundTime={this.state.config.roundTime}
@@ -163,7 +163,7 @@ class App extends Component {
 
       case 'idle':
         return <BeforeRoundPage
-          key="BeforeRoundPage"
+          key='BeforeRoundPage'
           currentPlayerId={this.state.game.currentPlayerId}
           players={this.state.game.players}
           gameCode={this.state.game.code}
@@ -173,18 +173,17 @@ class App extends Component {
 
       case 'finished':
         return <FinishedPage
-          key="FinishedPage"
+          key='FinishedPage'
           players={this.state.game.endScore}
           isGameOwner={isGameOwner}
         />
 
       default:
-        return <WelcomePage key="WelcomePage" />
+        return <WelcomePage key='WelcomePage' />
     }
   }
 
   render () {
-    
     const page = this.getPage()
 
     if (this.state.pageTransitionName) {

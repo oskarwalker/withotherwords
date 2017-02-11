@@ -51,7 +51,7 @@ class WelcomePage extends Component {
     if (e) {
       e.preventDefault()
     }
-    
+
     if (this.state.gameCode.length === 5 &&
        this.state.teamName.length > 0) {
       this.context.socket.emit('join-game', parseInt(this.state.gameCode), this.state.teamName)
@@ -76,7 +76,7 @@ class WelcomePage extends Component {
 
   render () {
     return (
-      <div className="page welcome-page">
+      <div className='page welcome-page'>
         <TeamNameForm onChange={this.onTeamNameChange} />
         <div className='start-buttons'>
           <button className='button-big' disabled={this.state.teamName.length < 1} onClick={this.dialogBoxOpen}>Anslut till ett spel</button>

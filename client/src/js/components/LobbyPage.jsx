@@ -6,7 +6,7 @@ function startGame (socket) {
 }
 
 const LobbyPage = ({ players, gameCode, gameOwnerId, isGameOwner }, { socket }) => (
-  <div className="page lobby-page">
+  <div className='page lobby-page'>
     {isGameOwner
         ? <BackButton>Avsluta Spel</BackButton>
         : <BackButton>Lämna Spel</BackButton>

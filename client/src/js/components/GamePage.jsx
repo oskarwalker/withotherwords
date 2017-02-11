@@ -57,7 +57,7 @@ class GamePage extends Component {
 
   render () {
     return (
-      <div className="page game-page">
+      <div className='page game-page'>
         {this.state.running
           ? this.renderGamePage()
           : <h3>Starting game..</h3>
