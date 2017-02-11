@@ -47,7 +47,11 @@ class WelcomePage extends Component {
     })
   }
 
-  joinGame () {
+  joinGame (e) {
+    if (e) {
+      e.preventDefault()
+    }
+    
     if (this.state.gameCode.length === 5 &&
        this.state.teamName.length > 0) {
       this.context.socket.emit('join-game', parseInt(this.state.gameCode), this.state.teamName)
@@ -83,7 +87,7 @@ class WelcomePage extends Component {
             <DialogContent onCancel={this.dialogBoxClose} onOk={this.joinGame}>
               <div>
                 <h2>Slå in spelkod för att ansluta</h2>
-                <GameCodeForm onChange={this.onGameCodeChange} />
+                <GameCodeForm onChange={this.onGameCodeChange} onSubmit={this.joinGame} />
               </div>
             </DialogContent>
           </DialogContainer>
