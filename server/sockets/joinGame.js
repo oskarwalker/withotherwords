@@ -1,11 +1,10 @@
 const sanitizer = require('sanitizer')
 const safe = require('server/lib/safe')
 const log = require('server/lib/log')
-const { getGameBySession } = require('server/db/game')
 
 async function joinGame (socket, db, sessionId, code, name) {
   // Sanitize input
-  code = sanitizer.sanitize(code)
+  code = parseInt(code, 10)
   name = sanitizer.sanitize(name)
 
   if (!code) {
@@ -18,17 +17,34 @@ async function joinGame (socket, db, sessionId, code, name) {
     return
   }
 
-  // get game
-  const [gameError, game] = await safe(getGameBySession(db, sessionId, { privateFields: true }))
-  if (gameError) return log.error(gameError, socket)
+  // Check if player is in a game already
+  const [playerCountError, playerCount] = await safe(db
+    .table('games')
+    .filter(db.row('players').contains(player => player('sessionId').eq(sessionId)))
+    .count()
+    .run(db.connection))
 
-  if (game === null) {
-    socket.emit('gameError', 'You\'re not part of a game.')
+  if (playerCountError) return log.error(playerCountError, socket)
+
+  if (playerCount > 0) {
+    socket.emit('gameError', 'You\'re already in a game.')
     return
   }
 
-  if (game.players.find(player => player.sessionId === sessionId)) {
-    socket.emit('gameError', 'You\'re already in this game.')
+  // If game is not waiting for players, don't add player
+  const [gameError, games] = await safe(db
+    .table('games')
+    .filter({code})
+    .pluck('id', 'status')
+    .run(db.connection)
+    .then(cursor => cursor.toArray()))
+
+  if (gameError) return log.error(gameError, socket)
+
+  const game = games.shift()
+
+  if (game.status !== 'waitingforplayers') {
+    socket.emit('gameError', 'That game is already running.')
     return
   }
 
@@ -43,9 +59,10 @@ async function joinGame (socket, db, sessionId, code, name) {
     points: 0
   }
 
+  // Insert new player
   const [updateError] = await safe(db
     .table('games')
-    .filter({id: game.id})
+    .get(game.id)
     .update({
       players: db.row('players').append(playerObject)
     })
