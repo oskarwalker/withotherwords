@@ -32,14 +32,19 @@ async function joinGame (socket, db, sessionId, code, name) {
   }
 
   // If game is not waiting for players, don't add player
-  const [gameError, games] = await safe(db
+  const [gamesError, games] = await safe(db
     .table('games')
     .filter({code})
     .pluck('id', 'status')
     .run(db.connection)
     .then(cursor => cursor.toArray()))
 
-  if (gameError) return log.error(gameError, socket)
+  if (gamesError) return log.error(gamesError, socket)
+
+  if (games.length < 1) {
+    socket.emit('gameError', 'That code does not work.')
+    return
+  }
 
   const game = games.shift()
 
