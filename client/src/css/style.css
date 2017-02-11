@@ -541,3 +541,22 @@ a, button, input, p, span, h1, h2, h3 {
   transform: translateX(-30%);
   transition: transform 200ms ease-in;
 }
+
+.game-error {
+  height: 40px;
+  width: 100vw;
+  font-size: 14px; 
+  line-height: 40px;
+  position: absolute;
+  z-index: 100;
+  text-align: center;
+  color: white;
+  font-family: 'San Francisco', 'Helvetica Neue', 'Helvetica';
+  background-color: crimson;
+  transform: translateY(-100%);
+  transition: 0.2s transform ease-in-out;
+}
+
+.game-error--visible {
+  transform: translateY(0%);
+}

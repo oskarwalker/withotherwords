@@ -31,11 +31,14 @@ class App extends Component {
       words: [],
       connected: true,
       socket: undefined,
-      pageTransitionName: 'pagePop'
+      pageTransitionName: 'pagePop',
+      gameError: '',
+      showGameError: false
     }
 
     this.getPage = this.getPage.bind(this)
     this.onGameUpdate = this.onGameUpdate.bind(this)
+    this.hideGameError = this.hideGameError.bind(this)
   }
 
   getChildContext () {
@@ -97,7 +100,23 @@ class App extends Component {
       words
     }))
 
-    socket.on('gameError', error => console.log(error))
+    socket.on('gameError', error => {
+      console.log(error)
+
+      if (window.cordova && window.TapticEngine) {
+        window.TapticEngine.notification({
+          type: 'error'
+        })
+      }
+
+      this.setState(
+        {
+          gameError: error,
+          showGameError: true
+        },
+        () => setTimeout(() => this.setState({showGameError: false}), 3000)
+      )
+    })
   }
 
   onGameUpdate (game) {
@@ -112,6 +131,12 @@ class App extends Component {
     this.setState({
       ...this.state,
       ...stateUpdate
+    })
+  }
+
+  hideGameError () {
+    this.setState({
+      gameError: ''
     })
   }
 
@@ -186,8 +211,8 @@ class App extends Component {
   render () {
     const page = this.getPage()
 
-    if (this.state.pageTransitionName) {
-      return (
+    const pageWrapper = this.state.pageTransitionName
+      ? (
         <ReactCSSTransitionGroup
           transitionName={this.state.pageTransitionName}
           transitionEnterTimeout={300}
@@ -196,9 +221,16 @@ class App extends Component {
           {page}
         </ReactCSSTransitionGroup>
       )
-    }
+      : page
 
-    return page
+    return (
+      <div className='app-wrapper'>
+        <div className={`game-error${this.state.showGameError ? ' game-error--visible' : ''}`}>
+          {this.state.gameError}
+        </div>
+        {pageWrapper}
+      </div>
+    )
   }
 }
 
