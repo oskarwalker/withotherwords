@@ -76,7 +76,7 @@ class WelcomePage extends Component {
 
   render () {
     return (
-      <div>
+      <div className="page welcome-page">
         <TeamNameForm onChange={this.onTeamNameChange} />
         <div className='start-buttons'>
           <button className='button-big' disabled={this.state.teamName.length < 1} onClick={this.dialogBoxOpen}>Anslut till ett spel</button>

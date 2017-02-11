@@ -5,7 +5,7 @@ function startNextRound (socket, gameCode) {
 }
 
 const BeforeRoundPage = ({ currentPlayerId, players, gameCode, isGameOwner, isPlayerTurn }, { socket }) => (
-  <div>
+  <div className='page before-round-page'>
     {isGameOwner
         ? <BackButton>Avsluta Spel</BackButton>
         : <BackButton>Lämna Spel</BackButton>

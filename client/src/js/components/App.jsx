@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import tss from 'timesync-socket/client'
 import GamePage from './GamePage.jsx'
 import LobbyPage from './LobbyPage.jsx'
@@ -12,6 +13,14 @@ const window = window || global
 
 window.tss = tss
 
+const gameStatusOrder = {
+  undefined: 0,
+  'waitingforplayers': 1,
+  'idle': 2,
+  'running': 3,
+  'finished': 4
+}
+
 class App extends Component {
   constructor (props) {
     super(props)
@@ -21,8 +30,12 @@ class App extends Component {
       config: props.config || {},
       words: [],
       connected: true,
-      socket: undefined
+      socket: undefined,
+      pageTransitionName: '',
     }
+
+    this.getPage = this.getPage.bind(this)
+    this.onGameUpdate = this.onGameUpdate.bind(this)
   }
 
   getChildContext () {
@@ -53,21 +66,16 @@ class App extends Component {
         }
       }
 
-      this.setState({
-        ...this.state,
-        game
-      })
+      this.onGameUpdate(game)
     })
 
-    socket.on('game.add', game => this.setState({
-      ...this.state,
-      game
-    }))
+    socket.on('game.add', game => {
+      this.onGameUpdate(game)
+    })
 
-    socket.on('game.remove', id => this.setState({
-      ...this.state,
-      game: {}
-    }))
+    socket.on('game.remove', id => {
+      this.onGameUpdate({})
+    })
 
     socket.on('player.update', player => this.setState({
       ...this.state,
@@ -92,6 +100,21 @@ class App extends Component {
     socket.on('gameError', error => console.log(error))
   }
 
+  onGameUpdate (game) {
+    const stateUpdate = {
+      game
+    }
+
+    if (game.status !== this.state.game.status) {
+      stateUpdate['pageTransitionName'] = (gameStatusOrder[this.state.game.status] < gameStatusOrder[game.status] ? 'pagePush' : 'pagePop')
+    }
+
+    this.setState({
+      ...this.state,
+      ...stateUpdate
+    })
+  }
+
   componentDidMount () {
     const onSocketSet = () => {
       window.socket = this.state.socket
@@ -111,7 +134,7 @@ class App extends Component {
     window.app = this
   }
 
-  render () {
+  getPage() {
     const tss = this.props.tss
 
     const isGameOwner = this.state.player.id === this.state.game.ownerId
@@ -120,6 +143,7 @@ class App extends Component {
     switch (this.state.game.status) {
       case 'waitingforplayers':
         return <LobbyPage
+          key="LobbyPage"
           players={this.state.game.players}
           gameCode={this.state.game.code}
           gameOwnerId={this.state.game.ownerId}
@@ -128,6 +152,7 @@ class App extends Component {
 
       case 'running':
         return <GamePage
+          key="GamePage"
           tss={tss}
           isPlayerTurn={isPlayerTurn}
           roundTime={this.state.config.roundTime}
@@ -138,6 +163,7 @@ class App extends Component {
 
       case 'idle':
         return <BeforeRoundPage
+          key="BeforeRoundPage"
           currentPlayerId={this.state.game.currentPlayerId}
           players={this.state.game.players}
           gameCode={this.state.game.code}
@@ -147,13 +173,33 @@ class App extends Component {
 
       case 'finished':
         return <FinishedPage
+          key="FinishedPage"
           players={this.state.game.endScore}
           isGameOwner={isGameOwner}
         />
 
       default:
-        return <WelcomePage />
+        return <WelcomePage key="WelcomePage" />
     }
+  }
+
+  render () {
+    
+    const page = this.getPage()
+
+    if (this.state.pageTransitionName) {
+      return (
+        <ReactCSSTransitionGroup
+          transitionName={this.state.pageTransitionName}
+          transitionEnterTimeout={300}
+          transitionLeaveTimeout={300}
+        >
+          {page}
+        </ReactCSSTransitionGroup>
+      )
+    }
+
+    return page
   }
 }
 

@@ -14,7 +14,7 @@ const FinishedPage = ({ players, isGameOwner }, { socket }) => {
   const winner = [sortedPlayers.shift()]
 
   return (
-    <div className='page-finished'>
+    <div className='page finished-page'>
       {isGameOwner
         ? <BackButton>Avsluta Spel</BackButton>
         : <BackButton>Lämna Spel</BackButton>
