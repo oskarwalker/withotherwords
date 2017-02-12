@@ -11,7 +11,7 @@ const GameRoundsForm = ({ rounds, onChange, disabled }) => (
       <option value='7'>7</option>
       <option value='8'>8</option>
     </select>
-    
+
   </div>
 )
 
