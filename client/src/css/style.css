@@ -527,7 +527,12 @@ a, button, input, p, span, h1, h2, h3, select {
   border: none;
 }
 
+.ios .referee-game-page {
+  padding-top: 55px;
+}
+
 .referee-game-page {
+  padding-top: 40px;
   height: 100vh;
 }
 
