@@ -42,6 +42,17 @@ class LobbyPage extends Component {
       socket
     } = this.context
 
+    let startGameComponent
+    if (isGameOwner) {
+      if (players.length < 2) {
+        startGameComponent = <p className='info-text-bottom'>Det krävs minst 2 lag för att starta spelet.</p>
+      } else {
+        startGameComponent = <button className='button-big button-bottom' onClick={startGame.bind(null, socket)}>Starta Spel</button>
+      }
+    } else {
+      startGameComponent = <p className='info-text-bottom'>Väntar på att {players.find(player => player.id === gameOwnerId).name} ska starta spelet!</p>
+    }
+
     return (
       <div className='page lobby-page'>
         {isGameOwner
@@ -55,10 +66,7 @@ class LobbyPage extends Component {
         <ul className='players'>
           {players.map((player, index) => <li className='player-list-item' key={player.id}><span className='player-team'>Lag {index + 1}</span><span className='player-name'>{player.name}</span></li>)}
         </ul>
-        {isGameOwner
-          ? <button className='button-big button-bottom' disabled={players.length < 2} onClick={startGame.bind(null, socket)}>Starta Spel</button>
-          : <p className='info-text-bottom'>Väntar på att {players.find(player => player.id === gameOwnerId).name} ska starta spelet!</p>
-        }
+        {startGameComponent}
       </div>
     )
   }

@@ -296,6 +296,7 @@ a, button, input, p, span, h1, h2, h3, select {
   text-align: center;
   width: 100%;
   bottom: 20px;
+  left: 0px;
 }
 
 .generic-text-input {
