@@ -177,6 +177,7 @@ class App extends Component {
       case 'waitingforplayers':
         return <LobbyPage
           key='LobbyPage'
+          rounds={this.state.game.rounds}
           players={this.state.game.players}
           gameCode={this.state.game.code}
           gameOwnerId={this.state.game.ownerId}

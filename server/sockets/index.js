@@ -10,6 +10,7 @@ const startRound = require('./startRound.js')
 const goBack = require('./goBack.js')
 const skipWord = require('./skipWord.js')
 const replayGame = require('./replayGame.js')
+const setRounds = require('./setRounds.js')
 
 const { gamePrivateFields } = require('server/db/game')
 
@@ -37,6 +38,7 @@ function setupSocket (socketio, db) {
     socket.on('go-back', goBack.bind(null, ...socketEventArgs))
     socket.on('skip-word', skipWord.bind(null, ...socketEventArgs))
     socket.on('replay-game', replayGame.bind(null, ...socketEventArgs))
+    socket.on('set-rounds', setRounds.bind(null, ...socketEventArgs))
 
     // register changefeeds
     const gamesChangesCursor = await db

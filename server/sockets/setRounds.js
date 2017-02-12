@@ -2,7 +2,7 @@ const safe = require('server/lib/safe')
 const log = require('server/lib/log')
 const { getGameBySession } = require('server/db/game')
 
-async function startGame (socket, db, sessionId) {
+async function setRounds (socket, db, sessionId, rounds = 2) {
   // get current game
   const [gameError, game] = await safe(getGameBySession(db, sessionId, { privateFields: true }))
   if (gameError) return log.error(gameError, socket)
@@ -12,29 +12,26 @@ async function startGame (socket, db, sessionId) {
     return
   }
 
-  if (game.players.length < 2) {
-    socket.emit('gameError', 'You need at least 2 player to start a game.')
-    return
-  }
-
   if (game.sessionId !== sessionId) {
     socket.emit('gameError', 'You\'re not the owner of this game.')
     return
   }
 
-  const currentPlayerId = game.players.find(player => player.sessionId === game.sessionId).id
+  rounds = isNaN(rounds) ? parseInt(rounds, 10) : rounds
+  if (rounds > 8) {
+    rounds = 8
+  } else if (rounds < 2) {
+    rounds = 2
+  }
 
   const [updateError] = await safe(db.table('games')
     .get(game.id)
     .update({
-      status: 'idle',
-      currentPlayerId,
-      maxTurns: db.row('rounds').mul(db.row('players').count()),
-      currentTurn: 1
+      rounds
     })
     .run(db.connection))
 
   if (updateError) return log.error(gameError, socket)
 }
 
-module.exports = startGame
+module.exports = setRounds

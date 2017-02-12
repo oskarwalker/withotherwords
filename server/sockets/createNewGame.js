@@ -34,6 +34,7 @@ async function createNewGame (socket, db, sessionId, name, categories = []) {
     ownerId: newPlayerId,
     players: [playerObject],
     code: randomCode(10000, 90000),
+    rounds: 2,
     status: 'waitingforplayers',
     roundEndTime: 0,
     roundStartTime: 0,
