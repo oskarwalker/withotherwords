@@ -17,7 +17,7 @@ async function setRounds (socket, db, sessionId, rounds = 2) {
     return
   }
 
-  rounds = isNaN(rounds) ? parseInt(rounds, 10) : rounds
+  rounds = parseInt(rounds, 10)
   if (rounds > 8) {
     rounds = 8
   } else if (rounds < 2) {
