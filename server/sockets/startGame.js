@@ -8,7 +8,7 @@ async function startGame (socket, db, sessionId, rounds = 2) {
   if (gameError) return log.error(gameError, socket)
 
   if (game === null) {
-    socket.emit('gameError', 'You\'re not in a game. Can not start game.')
+    socket.emit('gameError', 'You\'re not in a game.')
     return
   }
 
@@ -16,6 +16,12 @@ async function startGame (socket, db, sessionId, rounds = 2) {
     socket.emit('gameError', 'You need at least 2 player to start a game.')
     return
   }
+
+  if (game.sessionId !== sessionId) {
+    socket.emit('gameError', 'You\'re not the owner of this game.')
+    return
+  }
+
 
   const currentPlayerId = game.players.find(player => player.sessionId === game.sessionId).id
 
