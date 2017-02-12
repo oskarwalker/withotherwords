@@ -542,12 +542,18 @@ a, button, input, p, span, h1, h2, h3 {
   transition: transform 200ms ease-in;
 }
 
+.ios .game-error {
+  padding-top: 15px;
+}
+
 .game-error {
   height: 40px;
   width: 100vw;
   font-size: 14px; 
   line-height: 40px;
-  position: absolute;
+  position: fixed;
+  top: 0px;
+  left: 0px;
   z-index: 100;
   text-align: center;
   color: white;
