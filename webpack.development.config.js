@@ -11,21 +11,22 @@ module.exports = {
     publicPath: './js/',
     filename: 'bundle.js'
   },
-  plugins: [
-    new webpack.optimize.OccurenceOrderPlugin()
-  ],
+  plugins: [],
   module: {
-    loaders: [
+    rules: [
       {
         test: /(\.js)|(\.jsx)$/,
-        loader: 'babel',
+        loader: 'babel-loader',
         exclude: /node_modules/,
-        query: {
+        options: {
           cacheDirectory: true,
           presets: ['react', 'latest'],
           plugins: ['transform-object-rest-spread']
         }
       }
     ]
+  },
+  resolve: {
+    symlinks: false
   }
 }

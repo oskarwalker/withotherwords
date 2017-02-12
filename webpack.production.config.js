@@ -12,7 +12,6 @@ module.exports = {
   },
   plugins: [
     new webpack.NoErrorsPlugin(),
-    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
@@ -27,12 +26,12 @@ module.exports = {
     })
   ],
   module: {
-    loaders: [
+    rules: [
       {
         test: /(\.js)|(\.jsx)$/,
-        loader: 'babel',
+        loader: 'babel-loader',
         exclude: /node_modules/,
-        query: {
+        options: {
           cacheDirectory: true,
           presets: ['react', 'latest'],
           plugins: ['transform-object-rest-spread']
