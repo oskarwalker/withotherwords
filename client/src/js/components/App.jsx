@@ -7,7 +7,8 @@ import WelcomePage from './WelcomePage.jsx'
 import BeforeRoundPage from './BeforeRoundPage.jsx'
 import FinishedPage from './FinishedPage.jsx'
 
-import 'react-fastclick'
+import initReactFastclick from 'react-fastclick'
+initReactFastclick()
 
 const window = window || global
 
