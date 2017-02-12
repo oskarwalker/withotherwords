@@ -21,6 +21,7 @@ class GameTimer extends Component {
 
     return (
       <div className='game-timer'>
+        <span className='time-left-label'>Tid kvar</span>
         <Countdown synchronizeWith={synchronizeWith} offset={offset} roundTime={roundTime} />
         <div>
           <svg className='timer-svg' version='1.1'

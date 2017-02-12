@@ -9,7 +9,6 @@ function skipWord (socket) {
 const PlayerGamePage = ({ synchronizeWith, offset, roundTime, currentWord }, { socket }) => (
   <div className='player-game-page'>
     <BackButton>Avbryt</BackButton>
-    <span className='time-left-label'>Tid kvar</span>
     <GameTimer
       synchronizeWith={synchronizeWith}
       offset={offset}
