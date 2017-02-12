@@ -55,9 +55,9 @@ class App extends Component {
       socket,
       {
         interval: 300,
-        idleInterval: 4000
+        idleInterval: 4000,
+        onOffset: offset => this.setState({serverTimeOffset: offset})
       },
-      offset => this.setState({serverTimeOffset: offset})
     )
     .then(offset => this.setState({serverTimeOffset: offset}))
 
