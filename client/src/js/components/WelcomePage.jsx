@@ -42,9 +42,11 @@ class WelcomePage extends Component {
   }
 
   onGameCodeChange (event) {
-    this.setState({
-      gameCode: event.target.value
-    })
+    if (event.target.value.length <= 5) {
+      this.setState({
+        gameCode: event.target.value
+      })
+    }
   }
 
   joinGame (e) {
@@ -83,11 +85,11 @@ class WelcomePage extends Component {
           <button className='button-big' disabled={this.state.teamName.length < 1} onClick={this.createNewGame}>Skapa nytt spel</button>
         </div>
         {this.state.isShowingModal &&
-          <DialogContainer onClick={this.dialogBoxClose}>
+          <DialogContainer onClick={this.dialogBoxClose} error={this.props.showGameError}>
             <DialogContent onCancel={this.dialogBoxClose} onOk={this.joinGame}>
               <div>
                 <h2>Slå in spelkod för att ansluta</h2>
-                <GameCodeForm onChange={this.onGameCodeChange} onSubmit={this.joinGame} />
+                <GameCodeForm onChange={this.onGameCodeChange} onSubmit={this.joinGame} value={this.state.gameCode} />
               </div>
             </DialogContent>
           </DialogContainer>

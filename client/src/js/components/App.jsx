@@ -213,7 +213,10 @@ class App extends Component {
         />
 
       default:
-        return <WelcomePage key='WelcomePage' />
+        return <WelcomePage
+          key='WelcomePage'
+          showGameError={this.state.showGameError}
+        />
     }
   }
 

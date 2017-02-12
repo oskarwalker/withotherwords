@@ -1,8 +1,8 @@
 import React from 'react'
 
-const GameCodeForm = ({ onChange, onSubmit }) => (
+const GameCodeForm = ({ onChange, onSubmit, value }) => (
   <form onSubmit={onSubmit}>
-    <input type='number' pattern='\d*' onChange={onChange} />
+    <input type='text' pattern='\d*' placeholder='12345' value={value} onChange={onChange} />
   </form>
 )
 

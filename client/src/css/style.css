@@ -169,6 +169,48 @@ a, button, input, p, span, h1, h2, h3, select {
   }
 }
 
+.dialog-container-error {
+  animation: fadeInContent 0.15s ease-in-out forwards, errorShake 0.25s ease-in-out;
+}
+
+@keyframes errorShake {
+  0% {
+    transform: translateX(0px);
+  }
+
+  5% {
+    transform: translateX(-4px);
+  }
+
+  10% {
+    transform: translateX(0px);
+  }
+
+  20% {
+    transform: translateX(0px);
+  }
+
+  25% {
+    transform: translateX(4px);
+  }
+
+  30% {
+    transform: translateX(0px);
+  }
+
+  70% {
+    transform: translateX(0px);
+  }
+
+  80% {
+    transform: translateX(-4px);
+  }
+
+  90% {
+    transform: translateX(0px);
+  }
+}
+
 .dialog-content {
   padding: 10px;
 }
@@ -182,17 +224,17 @@ a, button, input, p, span, h1, h2, h3, select {
   margin-top: 5px;
 }
 
-.dialog-content input[type="number"] {
-    width: 100%;
-    padding-left: 15px;
-    padding-bottom: 5px;
-    margin-top: 30px;
-    font-size: 16px;
-    letter-spacing: 20px;
-    border: none;
-    border-radius: 0px;
-    border-bottom: 1px solid black;
-    text-align: center;
+.dialog-content input[type="text"] {
+  width: 100%;
+  padding-left: 20px;
+  padding-bottom: 5px;
+  margin-top: 20px;
+  font-size: 26px;
+  letter-spacing: 20px;
+  border: none;
+  border-radius: 0;
+  border-bottom: 2px solid #ffb83c;
+  text-align: center;
 }
 
 .dialog-buttons {
