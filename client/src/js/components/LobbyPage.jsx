@@ -7,9 +7,9 @@ function startGame (socket) {
 }
 
 class LobbyPage extends Component {
-  constructor(props) {
-    super(props);
-    
+  constructor (props) {
+    super(props)
+
     this.state = {
       rounds: props.rounds
     }
@@ -17,9 +17,9 @@ class LobbyPage extends Component {
 
   setRounds (e) {
     if (!isNaN(e.target.value) && e.target.value > 0) {
-      // this.setState({
-      //   rounds: e.target.value
-      // })
+      this.setState({
+        rounds: e.target.value
+      })
       this.context.socket.emit('set-rounds', e.target.value)
     }
   }
