@@ -13,7 +13,7 @@ class GamePage extends Component {
     setTimeout(() => this.setState({
       running: true
     }),
-      this.props.roundStartTime - (Date.now() - this.props.tss.offset())
+      this.props.roundStartTime - (Date.now() - this.props.serverTimeOffset)
     )
 
     this.renderGamePage = this.renderGamePage.bind(this)
@@ -21,7 +21,7 @@ class GamePage extends Component {
 
   renderGamePage () {
     const {
-      tss,
+      serverTimeOffset,
       roundStartTime,
       roundTime,
       words,
@@ -29,23 +29,22 @@ class GamePage extends Component {
       isPlayerTurn
     } = this.props
 
-    const offset = tss.offset()
     const currentWord = this.getCurrentWord(words, wordIndex)
 
     if (isPlayerTurn) {
       return <PlayerGamePage
-        synchronizeWith={roundStartTime - offset}
-        offset={offset}
+        synchronizeWith={roundStartTime - serverTimeOffset}
+        offset={serverTimeOffset}
         roundTime={roundTime}
         currentWord={currentWord}
             />
     } else {
       return <RefereeGamePage
-        synchronizeWith={roundStartTime - offset}
-        offset={offset}
+        synchronizeWith={roundStartTime - serverTimeOffset}
+        offset={serverTimeOffset}
         roundTime={roundTime}
         currentWord={currentWord}
-            />
+      />
     }
   }
 

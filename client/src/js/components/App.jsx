@@ -33,7 +33,8 @@ class App extends Component {
       socket: undefined,
       pageTransitionName: 'pagePop',
       gameError: '',
-      showGameError: false
+      showGameError: false,
+      serverTimeOffset: 0
     }
 
     this.getPage = this.getPage.bind(this)
@@ -49,7 +50,15 @@ class App extends Component {
 
   setupSocket (socket) {
     // Setup time sync
-    tss.setup(socket, { interval: 300, idleInterval: 4000 })
+    this.props.tss.setup(
+      socket,
+      {
+        interval: 300,
+        idleInterval: 4000
+      },
+      offset => this.setState({serverTimeOffset: offset})
+    )
+    .then(offset => this.setState({serverTimeOffset: offset}))
 
     socket.on('connect', () => {
       if (this.state.connected === false) {
@@ -160,8 +169,6 @@ class App extends Component {
   }
 
   getPage () {
-    const tss = this.props.tss
-
     const isGameOwner = this.state.player.id === this.state.game.ownerId
     const isPlayerTurn = this.state.player.id === this.state.game.currentPlayerId
 
@@ -178,7 +185,7 @@ class App extends Component {
       case 'running':
         return <GamePage
           key='GamePage'
-          tss={tss}
+          serverTimeOffset={this.state.serverTimeOffset}
           isPlayerTurn={isPlayerTurn}
           roundTime={this.state.config.roundTime}
           roundStartTime={this.state.game.roundStartTime}
