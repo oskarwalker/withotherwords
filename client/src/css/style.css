@@ -45,7 +45,7 @@ a, button, input, p, span, h1, h2, h3 {
   stroke-width: 20;
   transform: rotateZ(-90deg);
   transform-origin: center;
-  stroke-dashoffset: 0;
+  stroke-dashoffset: 686;
   stroke-dasharray: 343;
   
   animation-name: timerFill;
@@ -65,7 +65,7 @@ a, button, input, p, span, h1, h2, h3 {
   }
 
   100% {
-    stroke-dashoffset: -343;
+    stroke-dashoffset: 343;
     stroke: #ff3333;
   }
 }
