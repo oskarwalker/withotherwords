@@ -313,16 +313,6 @@ a, button, input, p, span, h1, h2, h3, select {
   width: 100%;
 }
 
-.button-replay, {
-  background-color: #4dd67d;
-  width: 120px;
-  height: 120px;
-  margin: 0px auto;
-  display: block;
-  margin-top: 50px;
-  border-radius: 50%;
-}
-
 .button-bottom,
 .info-text-bottom {
   position: fixed;
@@ -781,7 +771,7 @@ svg.spinner {
   0% {
     transform: translateY(100%);
   }
-  
+
   100% {
     transform: translateY(0%);
   }
