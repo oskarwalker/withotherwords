@@ -313,7 +313,7 @@ a, button, input, p, span, h1, h2, h3, select {
   width: 100%;
 }
 
-.button-replay {
+.button-replay, {
   background-color: #4dd67d;
   width: 120px;
   height: 120px;
@@ -392,6 +392,10 @@ a, button, input, p, span, h1, h2, h3, select {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
 }
 
 .back-button {
@@ -669,4 +673,71 @@ a, button, input, p, span, h1, h2, h3, select {
 
 .game-error--visible {
   transform: translateY(0%);
+}
+
+.welcome-page {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+.start-header {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+  color: white;
+  margin-top: 60px;
+  text-shadow: 1px 2px 5px rgba(0,0,0,0.4);
+}
+
+.info-link {
+  display: block;
+  width: 100vw;
+  text-align: center;
+  font-weight: 300;
+  color: #FFB83C;
+  margin-top: 15px;
+  z-index: 1;
+}
+
+.help-dialog-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+.help-dialog-content {
+  width: 100vw;
+  height: 100vh;
+  padding: 30px;
+}
+
+.help-dialog-container {
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  min-height: 150px;
+  background-color: white;
+  animation: slideUp 0.3s ease-in-out forwards;
+}
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(100%);
+  }
+  /*70% {
+    transform: translateY(10%);  
+  }*/
+  100% {
+    transform: translateY(0%);
+  }
 }
