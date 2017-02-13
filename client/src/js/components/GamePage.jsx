@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PlayerGamePage from './PlayerGamePage.jsx'
 import RefereeGamePage from './RefereeGamePage.jsx'
+import LoadingSpinner from './LoadingSpinner.jsx'
 
 class GamePage extends Component {
   constructor (props) {
@@ -56,10 +57,10 @@ class GamePage extends Component {
 
   render () {
     return (
-      <div className='page game-page'>
+      <div className={`page game-page${!this.state.running ? ' game-page--loading' : ''}`}>
         {this.state.running
           ? this.renderGamePage()
-          : <h3>Starting game..</h3>
+          : <LoadingSpinner />
         }
       </div>
     )

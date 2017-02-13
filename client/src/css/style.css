@@ -565,45 +565,6 @@ a, button, input, p, span, h1, h2, h3, select {
   border: none;
 }
 
-.ios .referee-game-page {
-  padding-top: 55px;
-}
-
-.referee-game-page {
-  padding-top: 40px;
-  height: 100vh;
-}
-
-.referee-game-page-content {
-  height: 100vh;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  padding-top: 90px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-
-.current-word-referee {
-  width: 100%;
-  display: block;
-  font-size: 20px;
-  margin: 60px 0px;
-  text-align: center;
-}
-
-.page {
-  width: 100vw;
-  height: 100vh;
-  position: absolute;
-  top: 0;
-  left: 0;
-
-  background-color: #f3f3f3;
-}
-
 .pagePop-enter {
   z-index: 0;
   transform: translateX(-30%);
@@ -647,6 +608,7 @@ a, button, input, p, span, h1, h2, h3, select {
 }
 
 .ios .game-error {
+  height: 55px;
   padding-top: 15px;
 }
 
@@ -669,4 +631,93 @@ a, button, input, p, span, h1, h2, h3, select {
 
 .game-error--visible {
   transform: translateY(0%);
+}
+
+.page {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  background-color: #f3f3f3;
+}
+
+.game-page {
+
+}
+
+.game-page.game-page--loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.ios .referee-game-page {
+  padding-top: 55px;
+}
+
+.referee-game-page {
+  padding-top: 40px;
+  height: 100vh;
+}
+
+.referee-game-page-content {
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  padding-top: 90px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.current-word-referee {
+  width: 100%;
+  display: block;
+  font-size: 20px;
+  margin: 60px 0px;
+  text-align: center;
+}
+
+.player-game-page {
+
+}
+
+svg.spinner {
+  width: 52px;
+  height: 52px;
+  x: 0px;
+  y: 0px;
+  viewBox: 0 0 52 52;
+}
+
+.loading-spinner-background {
+  fill: none;
+  stroke: rgba(23, 23, 23, 0.04);
+  stroke-width: 2;
+}
+
+.loading-spinner-foreground {
+  fill: none;
+  stroke: #FFCC00;
+  stroke-width: 2;
+  stroke-dasharray: 157;
+  stroke-dashoffset: 70;
+  stroke-linecap: round;
+  transform-origin: center;
+  animation: loadingSpinner 4s linear infinite;
+}
+
+@keyframes loadingSpinner {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(1080deg);
+  }
 }
