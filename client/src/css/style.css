@@ -792,3 +792,11 @@ svg.spinner {
     transform: translateY(0%);
   }
 }
+
+.turns-left {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: -15px;
+  font-size: 16px;
+  color: #95989a;
+}

@@ -198,6 +198,8 @@ class App extends Component {
       case 'idle':
         return <BeforeRoundPage
           key='BeforeRoundPage'
+          currentTurn={this.state.game.currentTurn}
+          maxTurns={this.state.game.maxTurns}
           currentPlayerId={this.state.game.currentPlayerId}
           players={this.state.game.players}
           gameCode={this.state.game.code}
