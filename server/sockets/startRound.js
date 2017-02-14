@@ -29,7 +29,8 @@ async function resetGame (socket, db, id) {
   const updateObject = {
     roundEndTime: 0,
     roundStartTime: 0,
-    status: 'idle'
+    status: 'idle',
+    wordIndex: db.row('wordIndex').add(1)
   }
 
   // Should game end?
