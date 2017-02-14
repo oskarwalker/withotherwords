@@ -1,4 +1,5 @@
 module.exports = {
   ROUND_TIME: 1000 * 60,
-  ROUND_TIMEOFFSET: 1000 * 1
+  ROUND_TIMEOFFSET: 1000 * 1,
+  WORD_SAMPLE_SIZE: 100,
 }

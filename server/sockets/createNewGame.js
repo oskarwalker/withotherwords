@@ -1,6 +1,7 @@
 const sanitizer = require('sanitizer')
 const safe = require('server/lib/safe')
 const log = require('server/lib/log')
+const { WORD_SAMPLE_SIZE } = require('server/config')
 const { sampleWordsByCategories } = require('server/db/words')
 
 function randomCode (low, high) {
@@ -16,7 +17,7 @@ async function createNewGame (socket, db, sessionId, name, categories = []) {
     return
   }
 
-  const [wordsError, words] = await safe(sampleWordsByCategories(db, categories, 100))
+  const [wordsError, words] = await safe(sampleWordsByCategories(db, categories, WORD_SAMPLE_SIZE))
   if (wordsError) return log.error(wordsError, socket)
 
   const [newPlayerIdError, newPlayerId] = await safe(db.uuid().run(db.connection))
