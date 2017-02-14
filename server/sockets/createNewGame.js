@@ -22,6 +22,17 @@ async function createNewGame (socket, db, sessionId, name, categories = []) {
   const [newPlayerIdError, newPlayerId] = await safe(db.uuid().run(db.connection))
   if (newPlayerIdError) return log.error(newPlayerIdError, socket)
 
+  let newCode
+  let codeQueryCount
+
+  do {
+    newCode = randomCode(10000, 90000)
+
+    let codeQueryCountError
+    [codeQueryCountError, codeQueryCount] = await safe(db.table('games').filter({code: newCode}).count().run(db.connection))
+    if (codeQueryCountError) return log.error(codeQueryCountError, socket)
+  } while (codeQueryCount > 0)
+
   const playerObject = {
     id: newPlayerId,
     sessionId,
@@ -33,7 +44,7 @@ async function createNewGame (socket, db, sessionId, name, categories = []) {
     sessionId,
     ownerId: newPlayerId,
     players: [playerObject],
-    code: randomCode(10000, 90000),
+    code: newCode,
     rounds: 2,
     status: 'waitingforplayers',
     roundEndTime: 0,
