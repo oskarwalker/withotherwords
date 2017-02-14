@@ -97,14 +97,14 @@ class WelcomePage extends Component {
     return (
       <div className='page welcome-page'>
         <h1 className='start-header'>MED ANDRA ORD</h1>
-          <span className='info-link' onClick={this.helpDialogOpen}>Hur funkar det?</span>
-          {this.state.isShowingHelpDialog &&
-            <HelpDialogContainer onClick={this.helpDialogClose}>
-              <div className='help-dialog-content'>
-                <p>test</p>
-                <button className='button-header button-right' onClick={this.helpDialogClose}>Stäng</button>
-              </div>
-            </HelpDialogContainer>
+        <span className='info-link' onClick={this.helpDialogOpen}>Hur funkar det?</span>
+        {this.state.isShowingHelpDialog &&
+        <HelpDialogContainer onClick={this.helpDialogClose}>
+          <div className='help-dialog-content'>
+            <p>test</p>
+            <button className='button-header button-right' onClick={this.helpDialogClose}>Stäng</button>
+          </div>
+        </HelpDialogContainer>
           }
         <TeamNameForm onChange={this.onTeamNameChange} />
         <div className='start-buttons'>

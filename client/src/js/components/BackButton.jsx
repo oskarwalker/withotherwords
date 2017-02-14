@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import Confirm from './Confirm.jsx'
 
 class BackButton extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.state = {
       showConfirm: false
     }
-    
+
     this.onConfirm = this.onConfirm.bind(this)
     this.goBack = this.goBack.bind(this)
     this.onBackButtonClick = this.onBackButtonClick.bind(this)
@@ -32,7 +32,7 @@ class BackButton extends Component {
     this.setState({
       showConfirm: true
     })
-  }  
+  }
 
   render () {
     const {
