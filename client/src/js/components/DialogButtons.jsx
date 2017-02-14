@@ -1,10 +1,10 @@
 import React from 'react'
 
-const DialogButtons = ({ onOk, onCancel }) => {
+const DialogButtons = ({ onOk, okTitle, onCancel, cancelTitle }) => {
   return (
     <div className='dialog-buttons'>
-      <button className='dialog-button dialog-button--left dialog-button-cancel' onClick={onCancel}>Avbryt</button>
-      <button className='dialog-button dialog-button--right dialog-button-ok' onClick={onOk}>Anslut</button>
+      <button className='dialog-button dialog-button--left dialog-button-cancel' onClick={onCancel}>{cancelTitle}</button>
+      <button className='dialog-button dialog-button--right dialog-button-ok' onClick={onOk}>{okTitle}</button>
     </div>
   )
 }

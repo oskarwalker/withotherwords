@@ -6,7 +6,7 @@ const DialogContent = ({ children, onCancel, onOk }) => (
     <div className='dialog-content'>
       {children}
     </div>
-    <DialogButtons onCancel={onCancel} onOk={onOk} />
+    <DialogButtons onCancel={onCancel} cancelTitle='Avbryt' onOk={onOk} okTitle='Anslut' />
   </div>
 )
 

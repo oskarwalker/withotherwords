@@ -61,7 +61,7 @@ class LobbyPage extends Component {
         }
         <input className='game-code' type='text' value={gameCode} readOnly />
         <span className='sub-note'>Bjud in andra med denna kod</span>
-        <span className='top-note'>Antal rundor per lag</span>
+        <span className='top-note'>Antal omgångar per lag</span>
         <GameRoundsForm rounds={this.state.rounds} onChange={this.setRounds.bind(this)} disabled={!isGameOwner} />
         <ul className='players'>
           {players.map((player, index) => <li className='player-list-item' key={player.id}><span className='player-team'>Lag {index + 1}</span><span className='player-name'>{player.name}</span></li>)}

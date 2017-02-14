@@ -126,6 +126,7 @@ a, button, input, p, span, h1, h2, h3, select {
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 50;
 }
 
 .dialog-overlay {
@@ -147,13 +148,18 @@ a, button, input, p, span, h1, h2, h3, select {
   }
 }
 
-.dialog-container {
-  width: 75%;
+.dialog-container,
+.confirm-dialog-container {
+  width: 70%;
   display: block;
   min-height: 150px;
   border-radius: 15px;
   background-color: white;
   animation: fadeInContent 0.15s ease-in-out forwards;
+}
+
+.confirm-dialog-container {
+  min-height: 110px;
 }
 
 @keyframes fadeInContent {
@@ -210,8 +216,18 @@ a, button, input, p, span, h1, h2, h3, select {
   }
 }
 
-.dialog-content {
+.dialog-content,
+.confirm-dialog-content {
   padding: 10px;
+}
+
+.confirm-dialog-content {
+  height: 110px;
+}
+
+.confirm-dialog-content p {
+  line-height: 55px;
+  text-align: center;
 }
 
 .dialog-content h2 {
@@ -400,7 +416,7 @@ a, button, input, p, span, h1, h2, h3, select {
   padding-top: 15px;
 }
 
-.back-button button,
+.back-button-button,
 .button-header {
   border: none;
   background: none;
