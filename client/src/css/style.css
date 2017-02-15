@@ -404,6 +404,10 @@ a, button, input, p, span, h1, h2, h3, select {
   width: 100vw;
 }
 
+.team-name-form .note {
+  margin-bottom: 35px;
+}
+
 .back-button {
   display: flex;
   flex-direction: row;
@@ -544,6 +548,12 @@ a, button, input, p, span, h1, h2, h3, select {
   color: #95989a;
   font-size: 12px;
   font-weight: 200;
+}
+
+.note {
+  text-align: center;
+  font-style: 14px;
+  color: #95989a;
 }
 
 .sub-note,
