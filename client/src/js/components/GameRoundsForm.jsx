@@ -2,6 +2,7 @@ import React from 'react'
 
 const GameRoundsForm = ({ rounds, onChange, disabled }) => (
   <div className='game-rounds-form'>
+    <span className='top-note'>Antal omgångar per lag</span>
     <select value={rounds} className='generic-select-input' onChange={onChange} disabled={disabled}>
       <option value='2'>2</option>
       <option value='3'>3</option>

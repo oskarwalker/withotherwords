@@ -388,8 +388,9 @@ a, button, input, p, span, h1, h2, h3, select {
 
 .game-rounds-form {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
 .team-name-form {
