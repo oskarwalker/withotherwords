@@ -171,6 +171,7 @@ class App extends Component {
   getPage () {
     const isGameOwner = this.state.player.id === this.state.game.ownerId
     const isPlayerTurn = this.state.player.id === this.state.game.currentPlayerId
+    const currentPlayer = this.state.game.players.find(player => player.id === this.state.player.id)
 
     switch (this.state.game.status) {
       case 'waitingforplayers':
@@ -187,6 +188,7 @@ class App extends Component {
         return <GamePage
           key='GamePage'
           serverTimeOffset={this.state.serverTimeOffset}
+          currentPlayer={currentPlayer}
           isPlayerTurn={isPlayerTurn}
           roundTime={this.state.config.roundTime}
           roundStartTime={this.state.game.roundStartTime}

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Countdown from './Countdown.jsx'
 
 class GameTimer extends Component {
 
@@ -21,8 +20,6 @@ class GameTimer extends Component {
 
     return (
       <div className='game-timer'>
-        <span className='time-left-label'>Tid kvar</span>
-        <Countdown synchronizeWith={synchronizeWith} offset={offset} roundTime={roundTime} />
         <div>
           <svg className='timer-svg' version='1.1'
             xmlns='http://www.w3.org/2000/svg' xmlnsXlink='http://www.w3.org/1999/xlink'

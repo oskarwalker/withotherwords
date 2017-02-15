@@ -27,6 +27,7 @@ class GamePage extends Component {
       roundTime,
       words,
       wordIndex,
+      currentPlayer,
       isPlayerTurn
     } = this.props
 
@@ -37,6 +38,7 @@ class GamePage extends Component {
         synchronizeWith={roundStartTime - serverTimeOffset}
         offset={serverTimeOffset}
         roundTime={roundTime}
+        currentPlayer={currentPlayer}
         currentWord={currentWord}
             />
     } else {
