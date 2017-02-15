@@ -29,7 +29,6 @@ class App extends Component {
       game: props.game || {},
       player: props.player || {},
       config: props.config || {},
-      words: [],
       connected: true,
       socket: undefined,
       pageTransitionName: 'pagePop',
