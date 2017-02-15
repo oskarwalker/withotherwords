@@ -99,13 +99,13 @@ class WelcomePage extends Component {
         <h1 className='start-header'>MED ANDRA ORD</h1>
         <span className='info-link' onClick={this.helpDialogOpen}>Hur funkar det?</span>
         {this.state.isShowingHelpDialog &&
-        <HelpDialogContainer onClick={this.helpDialogClose}>
-          <div className='help-dialog-content'>
-            <p>test</p>
-            <button className='button-header button-right' onClick={this.helpDialogClose}>Stäng</button>
-          </div>
-        </HelpDialogContainer>
-          }
+          <HelpDialogContainer onClick={this.helpDialogClose}>
+            <div className='help-dialog-content'>
+              <p>test</p>
+              <button className='button-header button-right' onClick={this.helpDialogClose}>Stäng</button>
+            </div>
+          </HelpDialogContainer>
+        }
         <TeamNameForm onChange={this.onTeamNameChange} />
         <div className='start-buttons'>
           <button className='button-big' disabled={this.state.teamName.length < 1} onClick={this.dialogBoxOpen}>Anslut till ett spel</button>
