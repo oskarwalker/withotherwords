@@ -185,7 +185,7 @@ class App extends Component {
 
       case 'running':
         const currentPlayer = this.state.game.players.find(player => player.id === this.state.player.id)
-        
+
         return <GamePage
           key='GamePage'
           serverTimeOffset={this.state.serverTimeOffset}

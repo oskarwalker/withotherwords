@@ -12,8 +12,6 @@ class GameTimer extends Component {
 
   render () {
     const {
-      synchronizeWith,
-      offset,
       roundTime,
       children
     } = this.props
