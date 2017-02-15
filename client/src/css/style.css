@@ -538,6 +538,22 @@ a, button, input, p, span, h1, h2, h3, select {
   font-weight: 200;
 }
 
+.player-next-up {
+  width: 80px;
+  height: 80px;
+  font-size: 15px;
+  text-transform: uppercase;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: lightgreen;
+  color: white;
+}
+
 .note {
   text-align: center;
   font-style: 14px;
