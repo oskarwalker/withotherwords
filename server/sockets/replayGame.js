@@ -1,5 +1,7 @@
 const safe = require('server/lib/safe')
 const log = require('server/lib/log')
+const { WORD_SAMPLE_SIZE } = require('server/config')
+const { sampleWordsByCategories } = require('server/db/words')
 const { getGameBySession } = require('server/db/game')
 
 async function replayGame (socket, db, sessionId) {
@@ -25,6 +27,9 @@ async function replayGame (socket, db, sessionId) {
     return
   }
 
+  const [wordsError, words] = await safe(sampleWordsByCategories(db, game.categories, WORD_SAMPLE_SIZE))
+  if (wordsError) return log.error(wordsError, socket)
+
   const [updateError] = await safe(db
     .table('games')
     .get(game.id)
@@ -33,7 +38,9 @@ async function replayGame (socket, db, sessionId) {
       players: game.players.map(player => Object.assign({}, player, {points: 0})),
       maxTurns: -1,
       currentTurn: -1,
-      currentPlayerId: -1
+      currentPlayerId: -1,
+      wordIndex: 1,
+      words,
     })
     .run(db.connection))
 

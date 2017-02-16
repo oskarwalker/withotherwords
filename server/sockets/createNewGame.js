@@ -48,6 +48,7 @@ async function createNewGame (socket, db, sessionId, name, categories = []) {
     code: newCode,
     rounds: 2,
     status: 'waitingforplayers',
+    categories,
     roundEndTime: 0,
     roundStartTime: 0,
     words,
