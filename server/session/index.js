@@ -6,7 +6,7 @@ module.exports = function (req, res, next) {
 
   if (!sessionId) {
     res.cookie('__sessid', randomSessionId(), {
-      expires: new Date(Date.now() + 1000 * 60 * 60 * 12),
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
       httpOnly: true
     })
   }
