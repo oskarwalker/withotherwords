@@ -12,11 +12,11 @@ const HelpDialogContent = ({ onClose }) => (
     <div className='illustrations'>
       <section>
         <p>Så här ser det ut för den som ska beskriva ett ord.</p>
-        <img src='/static/img/Screen_shot_player.png' />
+        <img src='static/img/Screen_shot_player.png' />
       </section>
       <section>
         <p>Och såhär för den som ska ge poäng.</p>
-        <img src='/static/img/Screen_shot_referee.png' />
+        <img src='static/img/Screen_shot_referee.png' />
       </section>
     </div>
     <p className='help-end-note'>Det var allt, lycka till!</p>

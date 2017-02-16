@@ -812,6 +812,10 @@ svg.spinner {
   }
 }
 
+.ios .help-dialog-content {
+  padding-top: 55px;
+}
+
 .help-dialog-content {
   width: 100vw;
   height: 100vh;
